@@ -12,6 +12,7 @@ func _ready():
 	health = MAX_HEALTH
 	SPEED = 20
 	radius = $PlayerDetect/CollisionShape2D.shape.radius
+	super()
 
 func _physics_process(delta):
 	var sees_player = false

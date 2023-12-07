@@ -7,6 +7,7 @@ func _ready():
 	connect("damaged", Callable(self, "knockback_back"))
 	anim.play("default")
 	movedir = rand_direction()
+	super()
 
 func _physics_process(delta):
 	if !network.is_map_host() || is_dead():

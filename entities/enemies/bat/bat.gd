@@ -11,6 +11,7 @@ func _ready():
 	DAMAGE = 0.5
 	health = MAX_HEALTH
 	SPEED = 30
+	super()
 
 func _physics_process(delta):
 	position += movedir * SPEED * delta

@@ -5,7 +5,7 @@ extends StaticBody2D
 var begin
 var zone
 #EDITED 12/7
-@onready var active = false: set = set_active
+@onready var is_active = false: set = set_active
 @onready var disable = false: set = set_disable
  
 signal started
@@ -15,7 +15,7 @@ signal finished
 signal reset
 
 func _ready():
-	set_physics_process(active)
+	set_physics_process(is_active)
 	add_to_group("interactable")
 	add_to_group("nopush")
 	add_to_group("zoned")
@@ -61,7 +61,7 @@ func activate():
 	set_physics_process(true)
 	
 func active():
-	if active == true && $AnimationPlayer.current_animation != "activate":
+	if is_active == true && $AnimationPlayer.current_animation != "activate":
 		$AnimationPlayer.play("active")
 	set_disable(true)
 	for i in range(20):
@@ -78,7 +78,7 @@ func deactivate():
 	set_physics_process(false)
 	
 func inactive():
-	if active == false && $AnimationPlayer.current_animation != "deactivate":
+	if is_active == false && $AnimationPlayer.current_animation != "deactivate":
 		$AnimationPlayer.play("inactive")
 	for i in range(20):
 		await get_tree().idle_frame
@@ -90,8 +90,8 @@ func set_active(value):
 		return
 	if network.is_map_host():
 		network.peer_call(self, "set_active", [value])
-	active = value
-	if !active:
+	is_active = value
+	if !is_active:
 		emit_signal("check_for_inactive")
 	else:
 		emit_signal("check_for_active")

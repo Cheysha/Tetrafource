@@ -13,8 +13,8 @@ var curent_node_choices = [] # If you want more than one possible answear, you s
 
 var force = false # force start the dialogue
 var random = false # Start from random node
-
-var finished = false
+#Edited 12/7
+var is_finished = false
 var visible = false
 
 

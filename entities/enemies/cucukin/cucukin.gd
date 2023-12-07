@@ -6,6 +6,7 @@ var active = false
 
 func _ready():
 	add_to_group("invunerable")
+	super()
 	
 func _physics_process(delta):
 	position += movedir * SPEED * delta

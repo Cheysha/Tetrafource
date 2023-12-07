@@ -4390,7 +4390,7 @@
     <property name="path" value="res://tiles/decor/flower_blue.tscn"/>
    </properties>
   </object>
-  <object id="59" gid="6" x="416" y="192" width="16" height="16">
+  <object id="59" gid="6" x="416" y="192" width="16" height="16" visible="0">
    <properties>
     <property name="chest_spawn" type="bool" value="false"/>
     <property name="color" value="green"/>
@@ -4417,7 +4417,7 @@
     <property name="spawned_by" value=""/>
    </properties>
   </object>
-  <object id="71" gid="6" x="1360" y="496" width="16" height="16">
+  <object id="71" gid="6" x="1360" y="496" width="16" height="16" visible="0">
    <properties>
     <property name="chest_spawn" type="bool" value="false"/>
     <property name="color" value="green"/>
@@ -5067,24 +5067,6 @@
     <property name="path" value="res://tiles/pot.tscn"/>
    </properties>
   </object>
-  <object id="220" gid="6" x="608" y="736" width="16" height="16">
-   <properties>
-    <property name="chest_spawn" type="bool" value="true"/>
-    <property name="color" value="green"/>
-    <property name="location" value="starting_area"/>
-    <property name="path" value="res://entities/enemies/slime/slime.tscn"/>
-    <property name="spawned_by" value="starting_trial"/>
-   </properties>
-  </object>
-  <object id="240" gid="6" x="528" y="736" width="16" height="16">
-   <properties>
-    <property name="chest_spawn" type="bool" value="false"/>
-    <property name="color" value="green"/>
-    <property name="location" value=""/>
-    <property name="path" value="res://entities/enemies/slime/slime.tscn"/>
-    <property name="spawned_by" value="starting_trial"/>
-   </properties>
-  </object>
   <object id="221" gid="37" x="704" y="960" width="16" height="16">
    <properties>
     <property name="chest_spawn" type="bool" value="false"/>
@@ -5118,7 +5100,7 @@
     <property name="spawned_by" value=""/>
    </properties>
   </object>
-  <object id="230" gid="6" x="1408" y="512" width="16" height="16">
+  <object id="230" gid="6" x="1408" y="512" width="16" height="16" visible="0">
    <properties>
     <property name="chest_spawn" type="bool" value="false"/>
     <property name="color" value="green"/>
@@ -5166,12 +5148,6 @@
     <property name="item" value="10 Tetrans"/>
     <property name="location" value="starting_area"/>
     <property name="path" value="res://tiles/chest.tscn"/>
-   </properties>
-  </object>
-  <object id="242" name="starting_trial" gid="40" x="560" y="704" width="16" height="16">
-   <properties>
-    <property name="dialogue" value="enemy_door"/>
-    <property name="path" value="res://tiles/enemy_door_trigger.tscn"/>
    </properties>
   </object>
   <object id="243" gid="3" x="608" y="768" width="16" height="16">

@@ -10,6 +10,7 @@ func _ready():
 	anim.play("unanimate")
 	add_to_group("invunerable")
 	movedir = rand_direction()
+	super()
 
 func _physics_process(delta):
 	var sees_player = false

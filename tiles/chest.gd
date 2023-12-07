@@ -7,7 +7,7 @@ var monster_trigger = false: set = set_spawned
 @export var item: String = "Bow"
 @export var location: String = "room"
 #EDITED 12/7
-#@export var hidden: bool = false
+@export var is_hidden: bool = false
 
 signal update_persistent_state
 signal begin_dialogue
@@ -15,7 +15,7 @@ signal begin_dialogue
 func _ready():
 	add_to_group("interactable")
 	$Item.hide()
-	if hidden == true:
+	if is_hidden == true:
 		hide()
 		$CollisionShape2D.disabled = true
 
@@ -94,7 +94,7 @@ func chest_spawn():
 			network.peer_call(self, "monster_trigger", [true])
 			network.peer_call(self, "hidden", [false])
 			set_spawned(true)
-			hidden = false
+			is_hidden = false
 			emit_signal("update_persistent_state")
 			
 	

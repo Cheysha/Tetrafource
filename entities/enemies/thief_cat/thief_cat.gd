@@ -17,6 +17,7 @@ func _ready():
 	health = MAX_HEALTH
 	movedir = rand_direction()
 	SPEED = 35
+	super()
 
 func _physics_process(delta):
 	if !network.is_map_host() || is_dead():
