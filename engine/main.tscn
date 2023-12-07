@@ -1,0 +1,313 @@
+[gd_scene load_steps=10 format=3 uid="uid://4r8fi8ma61x0"]
+
+[ext_resource type="Theme" uid="uid://b2a31vcxes60p" path="res://ui/theme/theme.tres" id="1"]
+[ext_resource type="PackedScene" path="res://ui/options/options.tscn" id="2"]
+[ext_resource type="Script" path="res://engine/main.gd" id="3"]
+[ext_resource type="Script" path="res://ui/main/version_label.gd" id="4"]
+[ext_resource type="PackedScene" path="res://ui/player_select/player_select.tscn" id="5"]
+[ext_resource type="SpriteFrames" uid="uid://yijei68x2oj5" path="res://ui/logo_animated_sprite.tres" id="6"]
+[ext_resource type="PackedScene" path="res://ui/loading_screen/loading_screen.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://ui/credits/Credits.tscn" id="8"]
+[ext_resource type="Script" path="res://ui/main/public_servers.gd" id="9"]
+
+[node name="main" type="Control"]
+layout_direction = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 258.0
+offset_bottom = 146.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+size_flags_horizontal = 2
+size_flags_vertical = 2
+theme = ExtResource("1")
+script = ExtResource("3")
+
+[node name="bg" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 528.0
+offset_bottom = 304.0
+color = Color(0.0705882, 0.0196078, 0.0196078, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(258.121, 55.1716)
+sprite_frames = ExtResource("6")
+animation = &"Logo"
+
+[node name="top" type="Panel" parent="." groups=["menu"]]
+visible = false
+layout_mode = 0
+offset_left = 176.0
+offset_top = 118.0
+offset_right = 336.0
+offset_bottom = 278.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="top"]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -76.0
+offset_right = 72.0
+offset_bottom = 76.0
+alignment = 1
+
+[node name="singleplayer" type="Button" parent="top/VBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+text = "Quickstart"
+
+[node name="multiplayer" type="Button" parent="top/VBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+text = "Multiplayer"
+
+[node name="load_game" type="Button" parent="top/VBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+text = "Load Game"
+
+[node name="credits" type="Button" parent="top/VBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+text = "Credits"
+
+[node name="options" type="Button" parent="top/VBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+text = "Options"
+
+[node name="quit" type="Button" parent="top/VBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+text = "Quit"
+
+[node name="multiplayer" type="TabContainer" parent="." groups=["menu"]]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 98.0
+offset_right = 368.0
+offset_bottom = 279.0
+
+[node name="Public" type="Control" parent="multiplayer"]
+layout_mode = 2
+script = ExtResource("9")
+_main = NodePath("../..")
+_button_container = NodePath("ScrollContainer/VBoxContainer")
+
+[node name="Label" type="Label" parent="multiplayer/Public"]
+layout_mode = 0
+offset_right = 210.0
+offset_bottom = 31.0
+text = "Join other players in solving puzzles and fighting bosses!"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="multiplayer/Public"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 34.0
+offset_right = 201.0
+offset_bottom = 139.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="multiplayer/Public/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="multiplayer/Public/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "#0 Public Server"
+
+[node name="Automatic" type="Control" parent="multiplayer"]
+visible = false
+layout_mode = 2
+
+[node name="lobby" type="LineEdit" parent="multiplayer/Automatic"]
+layout_mode = 0
+offset_left = 23.0042
+offset_top = 68.0042
+offset_right = 183.004
+offset_bottom = 100.411
+
+[node name="connect" type="Button" parent="multiplayer/Automatic"]
+layout_mode = 0
+offset_left = 71.0042
+offset_top = 108.004
+offset_right = 135.004
+offset_bottom = 130.004
+text = "Connect"
+
+[node name="Label" type="Label" parent="multiplayer/Automatic"]
+layout_mode = 0
+offset_right = 210.0
+offset_bottom = 66.0
+text = "Enter any lobby name below to create a new server hosted by us. Enter the same lobby name as someone else to join their server."
+
+[node name="Direct" type="Control" parent="multiplayer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="Label" type="Label" parent="multiplayer/Direct"]
+layout_mode = 0
+offset_right = 199.0
+offset_bottom = 146.0
+text = "Host a server on this machine by pressing the button below.
+Play on LAN with your local IP or online by port forwarding 7777.
+
+
+Connect to a server with IP:Port"
+
+[node name="address" type="LineEdit" parent="multiplayer/Direct"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 114.0
+offset_right = 136.0
+offset_bottom = 146.407
+size_flags_horizontal = 2
+size_flags_vertical = 2
+text = "127.0.0.1:7777"
+
+[node name="host" type="Button" parent="multiplayer/Direct"]
+layout_mode = 0
+offset_left = 71.0042
+offset_top = 66.0042
+offset_right = 135.004
+offset_bottom = 90.0042
+size_flags_horizontal = 2
+size_flags_vertical = 2
+text = "Host"
+
+[node name="join" type="Button" parent="multiplayer/Direct"]
+layout_mode = 0
+offset_left = 142.0
+offset_top = 120.0
+offset_right = 206.0
+offset_bottom = 142.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+text = "Join"
+
+[node name="options" parent="." instance=ExtResource("2")]
+visible = false
+layout_mode = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 143.0
+offset_top = 98.0
+offset_right = 368.0
+offset_bottom = 277.0
+
+[node name="credits" type="Panel" parent="." groups=["menu"]]
+visible = false
+layout_mode = 0
+offset_left = 142.0
+offset_top = 118.0
+offset_right = 372.0
+offset_bottom = 278.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="credits"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 12.0
+offset_right = 284.0
+offset_bottom = 205.0
+scale = Vector2(0.75, 0.75)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Credits" parent="credits/ScrollContainer" instance=ExtResource("8")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VersionLabel" type="Label" parent="."]
+layout_mode = 0
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -174.556
+offset_top = -17.7622
+offset_right = -5.55591
+offset_bottom = -4.76221
+text = "custom build"
+script = ExtResource("4")
+
+[node name="message" type="Panel" parent="." groups=["menu"]]
+visible = false
+layout_mode = 0
+offset_left = 161.0
+offset_top = 127.652
+offset_right = 359.0
+offset_bottom = 229.652
+
+[node name="Button" type="Button" parent="message"]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -22.0
+offset_top = -38.428
+offset_right = 16.4557
+offset_bottom = -16.6743
+text = "Close"
+
+[node name="Label" type="Label" parent="message"]
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -84.0
+offset_top = 13.0
+offset_right = 84.0
+offset_bottom = 56.0
+text = "Generic Error Message"
+
+[node name="player_select" parent="." instance=ExtResource("5")]
+visible = false
+layout_mode = 0
+expand_mode = 1
+main_path = NodePath("..")
+
+[node name="back" type="Button" parent="." groups=["menu"]]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 252.0
+offset_right = 66.0
+offset_bottom = 274.0
+text = "Back"
+
+[node name="loading_screen_layer" type="CanvasLayer" parent="."]
+
+[node name="loading_screen" parent="loading_screen_layer" instance=ExtResource("7")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="mouse_entered" from="top/VBoxContainer/singleplayer" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="top/VBoxContainer/singleplayer" to="." method="_on_quickstart_pressed"]
+[connection signal="mouse_entered" from="top/VBoxContainer/multiplayer" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="top/VBoxContainer/multiplayer" to="." method="_on_multiplayer_pressed"]
+[connection signal="mouse_entered" from="top/VBoxContainer/load_game" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="top/VBoxContainer/load_game" to="." method="_on_load_pressed"]
+[connection signal="mouse_entered" from="top/VBoxContainer/credits" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="top/VBoxContainer/credits" to="." method="_on_credits_pressed"]
+[connection signal="mouse_entered" from="top/VBoxContainer/options" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="top/VBoxContainer/options" to="." method="_on_options_pressed"]
+[connection signal="mouse_entered" from="top/VBoxContainer/quit" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="top/VBoxContainer/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="multiplayer/Automatic/connect" to="." method="_on_connect_pressed"]
+[connection signal="pressed" from="multiplayer/Direct/host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="multiplayer/Direct/join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="message/Button" to="." method="_on_back_pressed"]
+[connection signal="mouse_entered" from="back" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="back" to="." method="_on_back_pressed"]

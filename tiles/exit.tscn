@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://bbv4k823e7yrn"]
+
+[ext_resource type="Script" path="res://tiles/exit.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dsi3ccqcnor5e" path="res://effects/door_light.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://dom7me7gi1wsg" path="res://tiles/block.png" id="3_6lrtk"]
+
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(8, 8)
+
+[node name="exit" type="Area2D"]
+script = ExtResource("1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("1")
+
+[node name="PointLight2D" type="PointLight2D" parent="." groups=["light_halo"]]
+texture = ExtResource("2")
+offset = Vector2(0, -8)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_6lrtk")

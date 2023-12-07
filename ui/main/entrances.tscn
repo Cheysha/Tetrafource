@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://b80b4pe4lt2wb"]
+
+[ext_resource type="Theme" uid="uid://b2a31vcxes60p" path="res://ui/theme/theme.tres" id="1"]
+[ext_resource type="Script" path="res://ui/main/entrances.gd" id="2"]
+
+[node name="entrances" type="CanvasLayer"]
+layer = 101
+script = ExtResource("2")
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 248.0
+offset_bottom = 120.0
+theme = ExtResource("1")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 232.0
+offset_bottom = 104.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/ScrollContainer"]
+layout_mode = 2
+alignment = 1
