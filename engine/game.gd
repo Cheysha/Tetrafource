@@ -111,7 +111,7 @@ func update_puppets():
 			add_new_player(id) # add a new node for that name
 
 func _player_entered(id):
-	return
+	return # always this way
 	if id != network.pid:
 		print("player ", id, " entered")
 

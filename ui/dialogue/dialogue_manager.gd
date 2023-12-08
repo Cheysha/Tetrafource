@@ -15,7 +15,7 @@ var force = false # force start the dialogue
 var random = false # Start from random node
 #Edited 12/7
 var is_finished = false
-var visible = false
+#var visible = false
 
 
 #------UI--------#
@@ -39,11 +39,13 @@ func _input(event):
 		dialogueButtons[1].grab_focus()
 	
 #-----Load JSON File-----#
+#EDITED 12/8
 func LoadFile(fname):
 	file_name = fname
-	var file = File.new()
-	if file.file_exists("res://dialogue/"+file_name+".json"):
-		file.open("res://dialogue/" + file_name + ".json", file.READ)
+	#var file = File.new()
+	#var file = FileAccess.exi
+	if FileAccess.file_exists("res://dialogue/"+file_name+".json"):
+		var file = FileAccess.open("res://dialogue/" + file_name + ".json",FileAccess.READ)
 		var test_json_conv = JSON.new()
 		test_json_conv.parse(file.get_as_text())
 		var json_result = test_json_conv.get_data()
@@ -53,7 +55,7 @@ func LoadFile(fname):
 		nodes = json_result["Nodes"]
 	else:
 		print("Dialogue: File Open Error")
-	file.close()
+	#file.close()
 	if force:
 		StartDialogue()
 	
@@ -116,10 +118,10 @@ func UpdateUI():
 		if curent_node_choices.size() > 0:
 			for x in clamp(curent_node_choices.size(),0,3):
 				dialogueButtons[x].text = curent_node_choices[x]["text"]
-				
+				#EDITED 12/8
+				dialogueButtons[x].connect("pressed", Callable(self, "_on_button_Pressed").bind(curent_node_choices[x]["next_id"]))
 				#connecto to button
-				dialogueButtons[x].connect("pressed", Callable(self, "_on_Button_Pressed").bind(curent_node_choices[x]["next_id"))
-				
+				#dialogueButtons[x].connect("pressed", Callable(self, "_on_Button_Pressed").bind(curent_node_choices[x]["next_id"))
 				dialogueButtons[x].show()
 				dialogueButtons[0].grab_focus()
 				
@@ -141,7 +143,8 @@ func UpdateUI():
 
 #-----Text Animation-----#
 func Dialogue_Anim():
-	finished = false
+	#EDITED12/8
+	is_finished = false
 	$"DialogueUI/next-indicator".hide()
 	var line_speed = (curent_node_text.length() * 0.02)
 	tween.interpolate_property(dialogueText,"percent_visible",0,1,line_speed, Tween.TRANS_LINEAR)
@@ -160,7 +163,8 @@ func Begin_Dialogue():
 
 #-----Prompt Once Text Complete-----#
 func _on_Tween_tween_all_completed():
-	finished = true
+	#EDITED12/8
+	is_finished = true
 	$"DialogueUI/next-indicator".show()
 	if curent_node_choices.size() != null:
 		choiceBox.show()
