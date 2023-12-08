@@ -1,7 +1,7 @@
 extends StaticBody2D
 
 @onready var ray = $RayCast2D
-@onready var tween = $Tween
+#@onready var tween = $Tween
 
 @onready var target_position = position: set = set_position
 @onready var pushed = false: set = set_pushed
@@ -12,8 +12,8 @@ func _ready():
 	add_to_group("pushable")
 
 func interact(node):
-	if tween.is_active():
-		return
+	#if tween.is_active():
+		#return
 	if network.is_map_host():
 			attempt_move(node.last_movedir)
 	else:
@@ -42,9 +42,12 @@ func move_to(current_pos, target_pos):
 	animation.position = position
 	global.player.set_physics_process(false)
 	global.player.anim_switch("idle")
-	tween.interpolate_property(self, "position", current_pos, target_pos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
+	var t :Tween = create_tween()
+	t.tween_property(self,"position",target_position,1)
+	#tween.interpolate_property(self, "position", current_pos, target_pos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	#tween.start()
 	sfx.play("push")
-	await tween.tween_completed
-	global.player.set_physics_process(true)
+	t.tween_callback(global.player.set_physics_proces(true))
+	#await tween.tween_completed
+	#global.player.set_physics_process(true)
 

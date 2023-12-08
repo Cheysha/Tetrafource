@@ -32,7 +32,7 @@ var hitbox
 var center
 var camera
 #EDITED 12/4 FIX TWEEN 
-var tween 
+#var tween : Tween
 var walkfx
 @onready var map = get_parent()
 
@@ -60,7 +60,7 @@ func _ready():
 	create_center()
 	
 	#EDITED 12/4
-	tween = create_tween() 
+	#tween = create_tween() 
 	
 	walkfx = preload("res://effects/walkfx.tscn").instantiate()
 	add_child(walkfx)
@@ -127,12 +127,7 @@ func create_center():
 	new_center.position.y += 6
 	center = new_center
 	
-'''
-func create_tween():
-	var new_tween = Tween.new()
-	add_child(new_tween)
-	tween = new_tween
-'''
+
 func loop_movement():
 	var motion
 	if hitstun == 0:
@@ -296,6 +291,7 @@ func position_changed(value):
 	# EDITED 12/4
 	#tween.interpolate_property(self, "position", position, pos, network.tick_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	#tween.start()
+	create_tween().tween_property(self,"position",position,network.tick_time)
 
 func animation_changed(value):
 	animation = value

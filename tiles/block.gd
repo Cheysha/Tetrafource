@@ -1,7 +1,7 @@
 extends StaticBody2D
 
 @onready var ray = $RayCast2D
-@onready var tween = $Tween
+#@onready var tween = $Tween
 
 @onready var target_position = position: set = set_block_position
 @onready var pushed = false: set = set_pushed
@@ -13,8 +13,8 @@ func _ready():
 	set_collision_layer_value(10, 1)
 	
 func interact(node):
-	if tween.is_active():
-		return
+	#if tween.is_active():
+		#return
 	if network.is_map_host():
 		attempt_move(node.last_movedir)
 	else:
@@ -38,13 +38,15 @@ func set_pushed(value):
 	pushed = value
 
 func move_to(current_pos, target_pos):
-	tween.interpolate_property(self, "position", current_pos, target_pos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
+	#tween.interpolate_property(self, "position", current_pos, target_pos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	#tween.start()
+	create_tween().tween_property(self,"position",target_pos,1)
 	sfx.play("push")
 
 func snap_to(current_pos, target_pos):
-	tween.interpolate_property(self, "position", current_pos, target_pos, 0.1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
+	#tween.interpolate_property(self, "position", current_pos, target_pos, 0.1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	#tween.start()
+	create_tween().tween_property(self,"position",target_pos,0.1)
 	
 func set_default_state(action_zone=null):
 	set_pushed(false)

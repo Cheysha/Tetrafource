@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @onready var ray = $RayCast2D
+#EDITED 12/7#
 @onready var tween = $Tween
 
 @onready var target_position = position: set = set_block_position
@@ -13,8 +14,8 @@ func _ready():
 	set_collision_layer_value(10, 1)
 	
 func interact(node):
-	if tween.is_active():
-		return
+	#if tween.is_active():
+		#return
 	if network.is_map_host():
 		attempt_move(node.last_movedir)
 	else:

@@ -1,147 +1,154 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=3 uid="uid://dk1mrbyabclbs"]
 
-[ext_resource path="res://entities/enemies/thief_cat/thief_cat.gd" type="Script" id=1]
-[ext_resource path="res://engine/network_object.tscn" type="PackedScene" id=2]
-[ext_resource path="res://entities/enemies/thief_cat/thief_cat.png" type="Texture2D" id=3]
+[ext_resource type="Script" path="res://entities/enemies/thief_cat/thief_cat.gd" id="1"]
+[ext_resource type="PackedScene" path="res://engine/network_object.tscn" id="2"]
+[ext_resource type="Texture2D" uid="uid://c83f44r4r5ai3" path="res://entities/enemies/thief_cat/thief_cat.png" id="3"]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id="1"]
 resource_name = "confusion"
 length = 4.0
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PackedFloat32Array( 0 ),
-"transitions": PackedFloat32Array( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ 4 ]
+"values": [4]
 }
 
-[sub_resource type="Animation" id=2]
-loop = true
+[sub_resource type="Animation" id="2"]
+loop_mode = 1
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PackedFloat32Array( 0 ),
-"transitions": PackedFloat32Array( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ 0 ]
+"values": [0]
 }
 
-[sub_resource type="Animation" id=3]
-loop = true
+[sub_resource type="Animation" id="3"]
+loop_mode = 1
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PackedFloat32Array( 0 ),
-"transitions": PackedFloat32Array( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ 4 ]
+"values": [4]
 }
 
-[sub_resource type="Animation" id=4]
-loop = true
+[sub_resource type="Animation" id="4"]
+loop_mode = 1
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PackedFloat32Array( 0 ),
-"transitions": PackedFloat32Array( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ 2 ]
+"values": [2]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id="5"]
 length = 0.5
-loop = true
+loop_mode = 1
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PackedFloat32Array( 0, 0.25 ),
-"transitions": PackedFloat32Array( 1, 1 ),
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ 0, 1 ]
+"values": [0, 1]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id="6"]
 length = 0.5
-loop = true
+loop_mode = 1
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PackedFloat32Array( 0, 0.25 ),
-"transitions": PackedFloat32Array( 1, 1 ),
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ 4, 5 ]
+"values": [4, 5]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id="7"]
 length = 0.5
-loop = true
+loop_mode = 1
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PackedFloat32Array( 0, 0.25 ),
-"transitions": PackedFloat32Array( 1, 1 ),
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ 2, 3 ]
+"values": [2, 3]
 }
 
-[sub_resource type="CapsuleShape2D" id=8]
-radius = 6.0
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tgb0h"]
+_data = {
+"confusion": SubResource("1"),
+"idleDown": SubResource("2"),
+"idleSide": SubResource("3"),
+"idleUp": SubResource("4"),
+"walkDown": SubResource("5"),
+"walkSide": SubResource("6"),
+"walkUp": SubResource("7")
+}
+
+[sub_resource type="CapsuleShape2D" id="8"]
+radius = 2.0
 height = 4.0
 
 [node name="Thief_cat" type="CharacterBody2D"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/confusion = SubResource( 1 )
-anims/idleDown = SubResource( 2 )
-anims/idleSide = SubResource( 3 )
-anims/idleUp = SubResource( 4 )
-anims/walkDown = SubResource( 5 )
-anims/walkSide = SubResource( 6 )
-anims/walkUp = SubResource( 7 )
+libraries = {
+"": SubResource("AnimationLibrary_tgb0h")
+}
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource( 3 )
+texture = ExtResource("3")
 flip_h = true
 hframes = 8
 frame = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 8 )
+shape = SubResource("8")
 
-[node name="NetworkObject" parent="." instance=ExtResource( 2 )]
+[node name="NetworkObject" parent="." instance=ExtResource("2")]
 update_properties = {
 "animation": "",
-"pos": Vector2( 0, 0 ),
+"pos": Vector2(0, 0),
 "spritedir": "Down"
 }
 enter_properties = {
@@ -151,7 +158,7 @@ enter_properties = {
 [node name="PlayerDetect" type="Area2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PlayerDetect"]
-position = Vector2( 0, -1.65 )
+position = Vector2(0, -1.65)
 rotation = 4.71239
-scale = Vector2( 1, 1.22917 )
-polygon = PackedVector2Array( -38.3502, -39.0506, 1.64977, -52.0677, 41.6498, -39.0509, 33.6499, -13.017, 0, 0, -30.3501, -13.0168 )
+scale = Vector2(1, 1.22917)
+polygon = PackedVector2Array(-38.3502, -39.0506, 1.64977, -52.0677, 41.6498, -39.0509, 33.6499, -13.017, 0, 0, -30.3501, -13.0168)

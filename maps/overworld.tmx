@@ -5191,7 +5191,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="20" name="bombable_walls">
+ <objectgroup id="20" name="bombable_walls" visible="0">
   <properties>
    <property name="direction" value="right"/>
   </properties>
@@ -5202,7 +5202,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="18" name="zones">
+ <objectgroup id="18" name="zones" visible="0">
   <object id="137" type="area" x="-64" y="-96" width="816" height="544"/>
   <object id="138" type="area" x="-64" y="448" width="848" height="576"/>
   <object id="139" type="area" x="784" y="384" width="496" height="640"/>

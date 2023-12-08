@@ -41,12 +41,11 @@ func scroll_screen(rect : Rect2):
 	scroll_to.x = clamp(scroll_to.x, scroll_to_min.x + 16, scroll_to_max.x)
 	scroll_to.y = clamp(scroll_to.y, scroll_to_min.y + 16, scroll_to_max.y)
 	
-	#EDITED 12/4 tween are different now
-	#$Tween.interpolate_property(self, "position", scroll_from, scroll_to, SCROLL_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	#Tween.interpolate_value(self.position, scroll_to - scroll_from, 1,1,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
-	#Tween.start()
-	#create_tween().st
-	#await $Tween.tween_all_completed
+	#EDITED 12/4 
+	#Tween.interpolate_property(self, "position", scroll_from, scroll_to, SCROLL_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	#create_tween().interpolate_value(self.position, scroll_to - scroll_from, 1,SCROLL_DURATION,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
+	create_tween().tween_property(self,"position",scroll_to,SCROLL_DURATION)
+
 	
 	set_limits(rect)
 	position_smoothing_enabled = true

@@ -1,65 +1,68 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=3 uid="uid://drjgmseyrhs0j"]
 
-[ext_resource path="res://tiles/reset_wheel.png" type="Texture2D" id=1]
-[ext_resource path="res://tiles/reset_wheel.gd" type="Script" id=2]
-[ext_resource path="res://engine/network_object.tscn" type="PackedScene" id=3]
+[ext_resource type="Texture2D" uid="uid://h08e0ggeqqqm" path="res://tiles/reset_wheel.png" id="1"]
+[ext_resource type="Script" path="res://tiles/reset_wheel.gd" id="2"]
+[ext_resource type="PackedScene" path="res://engine/network_object.tscn" id="3"]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id="1"]
 resource_name = "idle"
 length = 0.1
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PackedFloat32Array( 0 ),
-"transitions": PackedFloat32Array( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ 0 ]
+"values": [0]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id="2"]
 resource_name = "reset"
 length = 0.4
-loop = true
+loop_mode = 1
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PackedFloat32Array( 0, 0.1, 0.2, 0.3 ),
-"transitions": PackedFloat32Array( 1, 1, 1, 1 ),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [ 0, 1, 2, 3 ]
+"values": [0, 1, 2, 3]
 }
 
-[sub_resource type="RectangleShape2D" id=3]
-size = Vector2( 13, 14 )
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xdmhm"]
+_data = {
+"idle": SubResource("1"),
+"reset": SubResource("2")
+}
 
-[node name="ResetWheel" type="StaticBody2D" groups=[
-"zoned",
-]]
+[sub_resource type="RectangleShape2D" id="3"]
+size = Vector2(13, 14)
+
+[node name="ResetWheel" type="StaticBody2D" groups=["zoned"]]
 collision_layer = 1025
 collision_mask = 1025
-script = ExtResource( 2 )
+script = ExtResource("2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource( 1 )
+texture = ExtResource("1")
 hframes = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/idle = SubResource( 1 )
-anims/reset = SubResource( 2 )
+libraries = {
+"": SubResource("AnimationLibrary_xdmhm")
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2( 0, 3 )
-shape = SubResource( 3 )
+position = Vector2(0, 3)
+shape = SubResource("3")
 
-[node name="NetworkObject" parent="." instance=ExtResource( 3 )]
-enter_properties = {
-}
+[node name="NetworkObject" parent="." instance=ExtResource("3")]
