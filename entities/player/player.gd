@@ -84,11 +84,13 @@ func initialize():
 		var zone : Area2D = $ZoneHandler.get_overlapping_areas()[0] #zonehandler on player, checking overlap between handler and zone itself
 		
 		#var zone_size = zone.get_node("CollisionShape2D").shape.size * 2
-		var zone_size : CollisionShape2D = zone.get_node("Rectangle Shape") # collisionshape
-		var zone_rect = Rect2(zone.position,zone.position * 6) # arbitrary
+		# needs fixed, trying to get area shape, to set camera boundries
+		var zone_collision_shape : CollisionShape2D = zone.get_node("Rectangle Shape") # collisionshape
+		var zone_size = zone_collision_shape.get_shape().get_rect().size
+		var zone_rect2 = Rect2(zone.position,zone_size) # arbitrary
 		#var zone_rect = zone_size.shape.get_rect() # this should work, but breaks
 		current_zone = zone
-		camera.set_limits(zone_rect)
+		camera.set_limits(zone_rect2)
 		camera.position_smoothing_enabled = true
 		
 		await get_tree().process_frame
