@@ -23,16 +23,19 @@ var is_finished = false
 @onready var dialogueText = $DialogueUI/DialogueText 
 @onready var dialoguePanel = $DialogueUI #Less rewritting if you want to move the script to another object
 @onready var dialogueName = $DialogueUI/DialogueName
-@onready var tween = $DialogueUI/Tween
+#@onready var tween = $DialogueUI/Tween
 @onready var dialogueButtons = [$DialogueUI/ChoiceBox/Button1,$DialogueUI/ChoiceBox/Button2]
 
 signal finished
 
 func _input(event):
+	#EDITED 12/8
 	if Input.is_action_pressed("B"):
-		tween.set_speed_scale(2.0)
+		#tween.set_speed_scale(2.0)
+		pass
 	else:
-		tween.set_speed_scale(1.0)
+		#tween.set_speed_scale(1.0)
+		pass
 	if Input.is_action_just_pressed("UP"):
 		dialogueButtons[0].grab_focus()
 	if Input.is_action_just_pressed("DOWN"):
@@ -102,7 +105,9 @@ func GrabNode(id):
 
 #----Update UI-----#
 func UpdateUI():
-	if dialogueText.percent_visible < 1:
+	#EDITED 12/8
+	#if dialogueText.percent_visible < 1:
+	if dialogueText.visible_ratio < 1:
 		choiceBox.hide()
 	if curent_node_id >= 0:
 		Dialogue_Anim()
@@ -136,7 +141,8 @@ func UpdateUI():
 	else:
 		get_parent().action_cooldown = 10
 		get_parent().state = "default"
-		dialogueText.percent_visible = 0
+		#dialogueText.percent_visible = 0
+		dialogueText.visible_ratio = 0
 		emit_signal("finished")
 		queue_free()
 		
@@ -147,8 +153,15 @@ func Dialogue_Anim():
 	is_finished = false
 	$"DialogueUI/next-indicator".hide()
 	var line_speed = (curent_node_text.length() * 0.02)
-	tween.interpolate_property(dialogueText,"percent_visible",0,1,line_speed, Tween.TRANS_LINEAR)
-	tween.start()
+	#EDITED 12/8
+	var t : Tween = create_tween()
+	t.tween_property(dialogueText,"visible_ratio",1,line_speed)
+	#var c = Callable(self,"_play_snd")
+	t.tween_method(Callable(self,"_play_snd"),0,0,0)
+	t.tween_callback(Callable(self,"_on_Tween_tween_all_completed"))
+	
+	#tween.interpolate_property(dialogueText,"percent_visible",0,1,line_speed, Tween.TRANS_LINEAR)
+	#tween.start()
 
 #-----On Button Pressed-----#
 func _on_Button_Pressed(id):
@@ -172,4 +185,7 @@ func _on_Tween_tween_all_completed():
 
 #-----Text Tween Sound Effect----#
 func _on_Tween_tween_step(object, key, elapsed, value):
+	sfx.play("dialogue")
+	
+func _play_snd(trash):
 	sfx.play("dialogue")

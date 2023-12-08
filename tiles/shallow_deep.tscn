@@ -6,11 +6,11 @@
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4bblu"]
 texture = ExtResource("1")
 
-[sub_resource type="TileSet" id="50"]
+[sub_resource type="TileSet" id="TileSet_17tc5"]
 sources/0 = SubResource("TileSetAtlasSource_4bblu")
 
 [node name="shallow_deep" type="TileMap"]
 z_index = -1
-tile_set = SubResource("50")
+tile_set = SubResource("TileSet_17tc5")
 format = 2
 script = ExtResource("2")

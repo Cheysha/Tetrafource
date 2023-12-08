@@ -5,7 +5,7 @@ class_name Entity
 # ATTRIBUTES
 @export var TYPE = "ENEMY" # (String, "ENEMY", "PLAYER", "TRAP")
 @export var MAX_HEALTH = 1 # (float, 0.5, 20, 0.5)
-@export var SPEED: int = 70
+@export var SPEED: int = 140
 @export var DAMAGE = 0.5 # (float, 0, 20, 0.5)
 
 # MOVEMENT
