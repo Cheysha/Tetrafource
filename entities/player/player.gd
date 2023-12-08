@@ -30,7 +30,7 @@ func initialize():
 		print(get_parent().get_node(global.next_entrance).position)
 		#EDITED 12/6
 		set_collision_layer_value(1,1)
-		var t2 = get_parent().get_node(global.next_entrance)
+		var t2 = get_parent().get_node(global.next_entrance) # the entrance 
 		var offset = get_parent().get_node(global.next_entrance).player_position 
 		match offset:
 			"up":
@@ -65,13 +65,13 @@ func initialize():
 		connect("update_count", Callable(hud, "update_weapons"))
 		nametag.hide()
 		
-		#$ZoneHandler.connect("area_entered", self, "zone_changed")
 		ray.add_exception($ZoneHandler)
 		ray.add_exception(hitbox)
 		ray.add_exception(center)
 		
+		#$ZoneHandler.connect("area_entered", self, "zone_changed")
 		$ZoneHandler.connect("area_entered", Callable(self, "change_zone"))
-		#EDITED 12/4
+
 		#await get_tree().idle_frame
 		await get_tree().process_frame
 		
@@ -80,11 +80,11 @@ func initialize():
 		
 		#await get_tree().idle_frame
 		await get_tree().process_frame
+		
 		var t = $ZoneHandler.get_overlapping_areas()
 		var zone : Area2D = $ZoneHandler.get_overlapping_areas()[0] #zonehandler on player, checking overlap between handler and zone itself
 		
 		#var zone_size = zone.get_node("CollisionShape2D").shape.size * 2
-		# needs fixed, trying to get area shape, to set camera boundries
 		var zone_collision_shape : CollisionShape2D = zone.get_node("Rectangle Shape") # collisionshape
 		var zone_size = zone_collision_shape.get_shape().get_rect().size
 		var zone_rect2 = Rect2(zone.position,zone_size) # arbitrary

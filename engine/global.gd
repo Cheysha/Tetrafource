@@ -168,23 +168,25 @@ func clean_session_data():
 
 func load_blacklist():
 	#EDITED 12/4
-	return
 	#var blacklist_file = File.new()
 	#if blacklist_file.file_exists("res://engine/blacklist.txt"):
+	if FileAccess.file_exists("res://engine/blacklist.txt"):
 		#blacklist_file.open("res://engine/blacklist.txt", File.READ)
-		#var word = blacklist_file.get_line()
-		#while word:
-			#blacklisted_words.append(word)
-			#word = blacklist_file.get_line()
-		#blacklist_file.close()
-	#else:
-		#print("No word blocklist found!")
+		var file :FileAccess = FileAccess.open("res://engine/blacklist.txt",FileAccess.READ)
+		var word = file.get_line()
+		while word:
+			blacklisted_words.append(word)
+			word = file.get_line()
+		file.close()
+	else:
+		print("No word blocklist found!")
 
 func value_in_blacklist(value : String):
 	if "misc" in global.options:
-		if "censor" in global.options.misc:
-			if global.options.misc.censor == false:
-				return false
+		if global.options.misc: # make sure not null
+			if "censor" in global.options.misc:
+				if global.options.misc.censor == false:
+					return false
 
 	value = value.replace(" ", "").to_lower().replace("-","").replace(".","")
 	for word in blacklisted_words:

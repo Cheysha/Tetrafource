@@ -102,7 +102,7 @@ func initialize():
 
 @rpc("any_peer") func _receive_my_player_token(token):
 	var identity = IdentityService.load_token(token)
-	var player_id = get_tree().get_remote_sender_id()
+	var player_id = get_tree().get_multiplayer().get_remote_sender_id()
 	if not await identity.is_valid():
 		kick_player(player_id, "Invalid identity token!")
 	player_identities[player_id] = identity
@@ -121,7 +121,7 @@ func update_name_from_identity(player_id, identity):
 	emit_signal("refresh_player_request", player_id)
 
 @rpc("any_peer") func _receive_my_player_data(data):
-	var player_id = get_tree().get_remote_sender_id()
+	var player_id = get_tree().get_multiplayer().get_remote_sender_id()
 	
 	if player_id in player_data:
 		data.name = player_data[player_id].name 
@@ -138,9 +138,9 @@ func update_name_from_identity(player_id, identity):
 
 @rpc("any_peer") func _receive_my_version(version):
 	if version != global.version:
-		kick_player(get_tree().get_remote_sender_id(), "Incompatible version! Server requires version: %s" % global.version)
+		kick_player(get_tree().get_multiplayer().get_remote_sender_id(), "Incompatible version! Server requires version: %s" % global.version)
 	else:
-		validated_players.append(get_tree().get_remote_sender_id())
+		validated_players.append(get_tree().get_multiplayer().get_remote_sender_id())
 
 @rpc("any_peer") func _receive_player_data(data):
 	player_data = data
@@ -151,7 +151,7 @@ func get_player_tag(id):
 func kick_player(id, reason):
 	if is_multiplayer_authority():
 		print(get_player_tag(id), " kicked: ", reason)
-		get_tree().network_peer.disconnect_peer(id, 1000, reason)
+		get_tree().get_multiplayer().network_peer.disconnect_peer(id, 1000, reason)
 	else:
 		print("Tried to kick as a client?")
 
@@ -230,7 +230,7 @@ func update_map_hosts():
 			map_hosts[map] = player_list.keys()[player_list.values().find(map)]
 
 func _player_disconnected(id): # remove disconnected players from player_list
-	if get_tree().is_server():
+	if get_tree().get_multiplayer().is_server():
 		print(str(get_player_tag(id), " left the game."))
 		player_list.erase(id)
 		start_empty_timeout()
@@ -243,7 +243,8 @@ func _player_disconnected(id): # remove disconnected players from player_list
 		update_players()
 
 func _player_connected(id):
-	if get_tree().is_server():
+	if get_tree().get_multiplayer().is_server():
+		
 		start_connection_timeout(id)
 
 func is_map_host():
@@ -387,7 +388,7 @@ func start_connection_timeout(id):
 func _connection_timer_timeout(id):
 	var connection_timer = get_node_or_null("connection_timer_%s" % id)
 	if connection_timer:
-		if id in get_tree().get_peers():
+		if id in get_tree().get_multiplayer().get_peers():
 			if not id in validated_players:
 				kick_player(id, "Did not recieve version data!")
 			if not id in player_data:
@@ -396,5 +397,5 @@ func _connection_timer_timeout(id):
 				kick_player(id, "Did not recieve player identity!")
 		connection_timer.queue_free()
 	else:
-		if id in get_tree().get_peers():
+		if id in get_tree().get_multiplayer().get_peers():
 			kick_player(id, "Failed to find connection timer!")

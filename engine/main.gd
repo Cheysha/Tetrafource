@@ -111,15 +111,11 @@ func start_game(dedicated = false, empty_timeout = 0, map = null, entrance = nul
 		hide()
 
 func host_server(dedicated = false, empty_timeout = 0, port = default_port, max_players = 16):
-	var ws = WebSocketServer.new()
-	# imported a websocketserver class, should do things the godot4 way
-	var wss = ENetMultiplayerPeer.new()
-	wss.create_server(port)
+	var ws = WebSocketMultiplayerPeer.new()
+	ws.create_server(port)
+	get_tree().get_multiplayer().set_multiplayer_peer(ws)
 	
-	var err = ws.listen(port);
-
-	#get_tree().set_multiplayer_peer(ws)
-	get_tree().get_multiplayer().multiplayer_peer.set_target_peer(ws.get_instance_id())
+	#var err = ws.listen(port);
 	#if err != OK:
 		#print("Port in use")
 		#return
@@ -135,13 +131,14 @@ func join_server(ip, port):
 		loading_screen.stop_loading()
 		return
 	
-	#var ws = WebSocketClient.new()
-	var ws = WebSocketPeer.new()
+	var ws = WebSocketMultiplayerPeer.new()
+
+	
+	#ws.connect("server_close_request", Callable(self, "_client_disconnect")) # refactor
 	var url = "ws://%s:%s" % [ip, port]
-	ws.connect("server_close_request", Callable(self, "_client_disconnect"))
-	#packed string array to tlsoptions
-	ws.connect_to_url(url);
-	get_tree().set_multiplayer_peer(ws)
+	ws.create_client(url)
+	#ws.connect_to_url(url);
+	get_tree().get_multiplayer().set_multiplayer_peer(ws)
 
 func join_aws(lobby_name):
 
