@@ -240,13 +240,13 @@
   </object>
   <object id="3" name="shrine" gid="282" x="304" y="624" width="16" height="16">
    <properties>
-    <property name="entrance" value="shrine"/>
-    <property name="map" value="overworld"/>
+    <property name="entrance" value="town_house1"/>
+    <property name="map" value="town/house1"/>
     <property name="path" value="res://tiles/exit.tscn"/>
     <property name="player_position" value="up"/>
    </properties>
   </object>
-  <object id="4" name="player_start" gid="282" x="352" y="288" width="16" height="16">
+  <object id="4" name="player_start" gid="282" x="288" y="272" width="16" height="16">
    <properties>
     <property name="entrance" value="player_start"/>
     <property name="map" value=""/>

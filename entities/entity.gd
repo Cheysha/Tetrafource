@@ -291,7 +291,7 @@ func position_changed(value):
 	# EDITED 12/4
 	#tween.interpolate_property(self, "position", position, pos, network.tick_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	#tween.start()
-	create_tween().tween_property(self,"position",position,network.tick_time)
+	#create_tween().tween_property(self,"position",pos,network.tick_time) # HORRIBLE SPAWN LOCATION BUG
 
 func animation_changed(value):
 	animation = value

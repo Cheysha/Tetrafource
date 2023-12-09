@@ -17,7 +17,6 @@ func _ready():
 		light = get_parent().get_parent().light
 	#EDITED 12/4
 	await get_tree().physics_frame
-	
 	for body in get_overlapping_bodies():
 		if body.is_in_group("zoned"):
 			body.zone = self

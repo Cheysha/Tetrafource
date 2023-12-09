@@ -8,7 +8,7 @@ var desired_entrance
 
 func get_entrances(entrances):
 	if entrances.size() == 1:
-		await get_tree().idle_frame
+		await get_tree().process_frame
 		finished(entrances[0].name)
 		return
 	for entrance in entrances:

@@ -1,11 +1,9 @@
 class_name Player
 extends Entity
 
-
-
-@onready var nametag = $name/nametag
-@onready var ray = $RayCast2D
-@onready var collision = $CollisionShape2D
+@onready var nametag= $name/nametag
+@onready var ray : RayCast2D = $RayCast2D
+@onready var collision : CollisionShape2D = $CollisionShape2D
 var hud
 
 var push_counter = 0
@@ -27,11 +25,9 @@ func initialize():
 		MAX_HEALTH = global.max_health
 		
 		position = get_parent().get_node(global.next_entrance).position
-		print(get_parent().get_node(global.next_entrance).position)
-		#EDITED 12/6
 		set_collision_layer_value(1,1)
-		var t2 = get_parent().get_node(global.next_entrance) # the entrance 
 		var offset = get_parent().get_node(global.next_entrance).player_position 
+		
 		match offset:
 			"up":
 				position.y -= 16
@@ -73,13 +69,14 @@ func initialize():
 		$ZoneHandler.connect("area_entered", Callable(self, "change_zone"))
 
 		#await get_tree().idle_frame
-		await get_tree().process_frame
+		#await get_tree().process_frame
 		
 		#camera.get_node("Tween").remove_all() # tween nodes arnt a thing
 		#camera.get_node("Tween").kill()
 		
 		#await get_tree().idle_frame
 		await get_tree().process_frame
+		# is somthing moving hte player between thees?
 		
 		var t = $ZoneHandler.get_overlapping_areas()
 		var zone : Area2D = $ZoneHandler.get_overlapping_areas()[0] #zonehandler on player, checking overlap between handler and zone itself
@@ -87,8 +84,7 @@ func initialize():
 		#var zone_size = zone.get_node("CollisionShape2D").shape.size * 2
 		var zone_collision_shape : CollisionShape2D = zone.get_node("Rectangle Shape") # collisionshape
 		var zone_size = zone_collision_shape.get_shape().get_rect().size
-		var zone_rect2 = Rect2(zone.position,zone_size) # arbitrary
-		#var zone_rect = zone_size.shape.get_rect() # this should work, but breaks
+		var zone_rect2 = Rect2(zone.position,zone_size) 
 		current_zone = zone
 		camera.set_limits(zone_rect2)
 		camera.position_smoothing_enabled = true
@@ -195,6 +191,7 @@ func state_swing():
 	loop_damage()
 	loop_holes()
 	movedir = Vector2.ZERO
+
 
 func state_hold():
 	loop_controls()

@@ -14,8 +14,9 @@ dest_files=["res://.godot/imported/house1.tmx-a25fa8062339d71ea86955cad22e6d24.t
 
 use_tilemap_layers=false
 use_default_filter=false
-add_class_as_metadata=false
+add_class_as_metadata=true
+add_id_as_metadata=false
 map_wangset_to_terrain=false
 tiled_project_file=""
-post_processor=""
+post_processor="res://tiled/import.gd"
 save_tileset_to=""

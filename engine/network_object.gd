@@ -27,7 +27,6 @@ func _tick():
 		update_sync()
 
 func player_entered(id):
-
 	if require_map_host && !network.is_map_host():
 		return
 	if id == network.pid:

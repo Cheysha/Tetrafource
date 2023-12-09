@@ -2,30 +2,30 @@ extends Node
 
 const CONNECTION_TIMEOUT = 5
 
-var pid = 1
+var pid : int = 1
 
-var dedicated = false
+var dedicated : bool = false
 
 var current_map = null
-var player_list = {} # player, map -- every active player and what map they're in
-var map_hosts = {} # map, player -- every active map and which player is hosting it
+var player_list : Dictionary = {} # player, map -- every active player and what map they're in
+var map_hosts : Dictionary = {} # map, player -- every active map and which player is hosting it
 
 var validated_players = []
 var current_players = []
 var map_peers = []
 
-var tick
-var tick_time = 0.05
+var tick : Timer
+var tick_time : float = 0.05
 
-var empty_timeout = 0
+var empty_timeout : int = 0
 var empty_timeout_timer
 
 signal end_aws_task
 signal received_player_list
 signal refresh_player_request(player_id)
 
-var player_data = {}
-var player_identities = {}
+var player_data : Dictionary = {}
+var player_identities : Dictionary = {}
 
 var state
 
@@ -62,9 +62,7 @@ func complete(include_network = true):
 	tick.queue_free()
 	current_map.queue_free()
 	if include_network:
-		pass
-		#EDITED 12/5
-		#get_tree().set_multiplayer_peer(null)
+		get_tree().set_multiplayer_peer(null)
 	clean_session_data()
 	pid = 1
 
@@ -244,7 +242,6 @@ func _player_disconnected(id): # remove disconnected players from player_list
 
 func _player_connected(id):
 	if get_tree().get_multiplayer().is_server():
-		
 		start_connection_timeout(id)
 
 func is_map_host():

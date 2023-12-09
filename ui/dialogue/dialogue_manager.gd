@@ -156,10 +156,8 @@ func Dialogue_Anim():
 	#EDITED 12/8
 	var t : Tween = create_tween()
 	t.tween_property(dialogueText,"visible_ratio",1,line_speed)
-	#var c = Callable(self,"_play_snd")
 	t.tween_method(Callable(self,"_play_snd"),0,0,0)
 	t.tween_callback(Callable(self,"_on_Tween_tween_all_completed"))
-	
 	#tween.interpolate_property(dialogueText,"percent_visible",0,1,line_speed, Tween.TRANS_LINEAR)
 	#tween.start()
 

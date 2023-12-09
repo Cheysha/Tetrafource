@@ -3,14 +3,15 @@ extends Control
 
 var default_map = "res://maps/shrine.tmx"
 var default_entrance = "player_start"
-@export var default_port = 7777
-var server_api = preload("res://engine/server_api.gd").new()
+@export var default_port : int = 7777
+var server_api : Node = preload("res://engine/server_api.gd").new()
 
-@onready var address_line = $multiplayer/Direct/address
-@onready var lobby_line = $multiplayer/Automatic/lobby
+@onready var address_line : LineEdit = $multiplayer/Direct/address
+@onready var lobby_line : LineEdit = $multiplayer/Automatic/lobby
 #onready var endpoint_button = $options/scroll/vbox/endpoint JosephB Needs to confirm deletion
-@onready var singleplayer_focus = $top/VBoxContainer/singleplayer
-@onready var loading_screen = $loading_screen_layer/loading_screen
+@onready var singleplayer_focus : Button = $top/VBoxContainer/singleplayer
+@onready var loading_screen : Control = $loading_screen_layer/loading_screen
+
 
 func _ready():
 	$AnimatedSprite2D.play()
@@ -223,9 +224,7 @@ func end_game():
 	screenfx.play("default")
 
 func quit_program():
-	#EDITED 12/5 for some reason tree is null
-	#get_tree().set_multiplayer(null)
-	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
+	get_tree().get_multiplayer().clear()
 	get_tree().quit()
 	
 
@@ -241,7 +240,7 @@ func hide_menus():
 		node.hide()
 
 func _notification(n):
-	if (n == MainLoop.NOTIFICATION_PREDELETE):
+	if (n == NOTIFICATION_WM_CLOSE_REQUEST):
 		quit_program()
 
 func _on_connect_pressed():
@@ -311,9 +310,6 @@ func _on_endpoint_item_selected(index):
 
 func _on_mouse_entered():
 	sfx.play("item_select")
-
-
-
 
 func _on_credits_pressed():
 	hide_menus()

@@ -45,6 +45,7 @@ func _process(delta): # can be on screen change instead of process
 	var active_zones = []
 	var active_enemies = []
 	
+	# find zones with players and make themm active
 	for player in get_tree().get_nodes_in_group("player"):
 		var handler = player.get_node("ZoneHandler")
 		if handler.get_overlapping_areas().size() > 0: 
