@@ -21,13 +21,9 @@ func _post_process(imported_scene):
 		elif child is Node2D:
 			if child.name == "zones":
 				for zone in child.get_children():
-					#EDITED 12/4
 					zone.get_node("Rectangle Shape").shape.size -= Vector2(8,8)
 					zone.set_collision_layer_value(1, 0)
 					zone.set_collision_mask_value(1, 0)
-					#zone.set_collision_layer_value(10, 1)
-					#zone.set_collision_mask_value(10, 1)
-					#CHEY
 					zone.set_collision_layer_value(11, 1)
 					zone.set_collision_mask_value(11, 1)
 					zone.set_script(preload("res://engine/zone.gd"))
@@ -41,10 +37,6 @@ func _post_process(imported_scene):
 
 func import_tilemap(tilemap:TileMap):
 	tilemap.z_index -= 10
-	# EDITED 12/4
-	#tilemap.set_collision_layer_value(1,1)
-	#tilemap.set_collision_mask_value(1,1)
-	#tilemap.position.y += 16 # think this was traced to an issue with a lyer in the tilemap. 
 	if tilemap.has_meta("script"):
 		tilemap.set_script(load(tilemap.get_meta("script")))
 	if tilemap.has_meta("replace"):
@@ -52,12 +44,6 @@ func import_tilemap(tilemap:TileMap):
 		return
 	if tilemap.has_meta("z_index"):
 		tilemap.z_index = tilemap.get_meta("z_index")
-	# EDITED 12/4
-	#if tilemap.has_meta("collision"):
-		#tilemap.set_collision_layer_value(0, 0)
-		#tilemap.set_collision_layer_value(1, 0)
-		#tilemap.set_collision_mask_value(0, 0)
-		#tilemap.set_collision_mask_value(1, 0)
 
 func spawn_object(object : Node2D):
 	print("here")

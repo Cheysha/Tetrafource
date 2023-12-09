@@ -20,7 +20,7 @@ var version = null: get = get_version
 var current_save_name = null
 var blacklisted_words = []
 var player
-#EDITED 12/4, was trying to set const
+
 var equips = DEFAULT_EQUIPS.duplicate()
 var weapons = DEFAULT_WEAPONS
 var items = DEFAULT_ITEMS
@@ -167,11 +167,7 @@ func clean_session_data():
 	spiritpearl = DEFAULT_SPIRITPEARL
 
 func load_blacklist():
-	#EDITED 12/4
-	#var blacklist_file = File.new()
-	#if blacklist_file.file_exists("res://engine/blacklist.txt"):
 	if FileAccess.file_exists("res://engine/blacklist.txt"):
-		#blacklist_file.open("res://engine/blacklist.txt", File.READ)
 		var file :FileAccess = FileAccess.open("res://engine/blacklist.txt",FileAccess.READ)
 		var word = file.get_line()
 		while word:

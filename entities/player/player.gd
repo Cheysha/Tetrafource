@@ -64,24 +64,13 @@ func initialize():
 		ray.add_exception($ZoneHandler)
 		ray.add_exception(hitbox)
 		ray.add_exception(center)
-		
-		#$ZoneHandler.connect("area_entered", self, "zone_changed")
+
 		$ZoneHandler.connect("area_entered", Callable(self, "change_zone"))
 
-		#await get_tree().idle_frame
-		#await get_tree().process_frame
-		
-		#camera.get_node("Tween").remove_all() # tween nodes arnt a thing
-		#camera.get_node("Tween").kill()
-		
-		#await get_tree().idle_frame
-		await get_tree().process_frame
-		# is somthing moving hte player between thees?
-		
+
 		var t = $ZoneHandler.get_overlapping_areas()
 		var zone : Area2D = $ZoneHandler.get_overlapping_areas()[0] #zonehandler on player, checking overlap between handler and zone itself
-		
-		#var zone_size = zone.get_node("CollisionShape2D").shape.size * 2
+
 		var zone_collision_shape : CollisionShape2D = zone.get_node("Rectangle Shape") # collisionshape
 		var zone_size = zone_collision_shape.get_shape().get_rect().size
 		var zone_rect2 = Rect2(zone.position,zone_size) 
@@ -90,8 +79,7 @@ func initialize():
 		camera.position_smoothing_enabled = true
 		
 		await get_tree().process_frame
-		#await get_tree().idle_frame
-		
+
 		camera.position = position
 		camera.reset_smoothing()
 		camera.set_process(true)
@@ -110,7 +98,6 @@ func initialize():
 	network.current_map.emit_signal("player_entered", name.to_int())
 
 func _physics_process(_delta):
-
 	if !is_multiplayer_authority():
 		sprite.flip_h = (spritedir == "Left")
 		return

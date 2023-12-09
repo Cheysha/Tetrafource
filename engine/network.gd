@@ -40,10 +40,7 @@ var state
 
 func _ready():
 	set_process(false)
-	#EDITED 12/4
-	#get_tree().connect("peer_connected", Callable(self, "_player_connected"))
 	get_tree().get_multiplayer().connect("peer_connected", Callable(self, "_player_connected"))
-	#get_tree().connect("peer_disconnected", Callable(self, "_player_disconnected"))
 	get_tree().get_multiplayer().connect("peer_disconnected", Callable(self, "_player_disconnected"))
 	
 	states.weapons = global.weapons
@@ -73,8 +70,6 @@ func initialize():
 	tick.one_shot = false
 	tick.start()
 	
-	#EDITED 12/4
-	#if get_tree().is_server() && !dedicated:
 	if get_tree().get_multiplayer().is_server() && !dedicated:
 		player_data[1] = global.options.player_data
 	elif !dedicated:
@@ -86,7 +81,6 @@ func initialize():
 	
 	start_empty_timeout()
 	
-	#EDITED 12/4
 	await get_tree().create_timer(0.1).timeout
 	
 	global.emit_signal("debug_update")

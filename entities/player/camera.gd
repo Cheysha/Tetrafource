@@ -26,7 +26,6 @@ func scroll_screen(rect : Rect2):
 	target.set_physics_process(false) # yes i know i should use signals
 	set_process(false)
 	
-	#var scroll_from = get_camera_screen_center()
 	var scroll_from = get_screen_center_position()
 	
 	unlimit() # remove the current camera limits (can't have limits while scrolling)
@@ -40,10 +39,7 @@ func scroll_screen(rect : Rect2):
 	var scroll_to_max = current_rect.position + current_rect.size - screen_size / 2
 	scroll_to.x = clamp(scroll_to.x, scroll_to_min.x + 16, scroll_to_max.x)
 	scroll_to.y = clamp(scroll_to.y, scroll_to_min.y + 16, scroll_to_max.y)
-	
-	#EDITED 12/4 
-	#Tween.interpolate_property(self, "position", scroll_from, scroll_to, SCROLL_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	#create_tween().interpolate_value(self.position, scroll_to - scroll_from, 1,SCROLL_DURATION,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
+
 	create_tween().tween_property(self,"position",scroll_to,SCROLL_DURATION)
 
 	

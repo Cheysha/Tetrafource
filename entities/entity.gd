@@ -31,8 +31,6 @@ var home_position = Vector2(0,0)
 var hitbox 
 var center
 var camera
-#EDITED 12/4 FIX TWEEN 
-#var tween : Tween
 var walkfx
 @onready var map = get_parent()
 
@@ -58,10 +56,7 @@ func _ready():
 	pos = position
 	create_hitbox()
 	create_center()
-	
-	#EDITED 12/4
-	#tween = create_tween() 
-	
+
 	walkfx = preload("res://effects/walkfx.tscn").instantiate()
 	add_child(walkfx)
 	#map.connect("player_entered", self, "player_entered")
@@ -90,13 +85,10 @@ func create_hitbox():
 	
 	var new_collision = CollisionShape2D.new()
 	new_hitbox.add_child(new_collision)
-	# EDITED
-	
 	var new_shape = CapsuleShape2D.new()
 	new_collision.shape = new_shape
 	new_shape.radius = $CollisionShape2D.shape.radius + 1
 	new_shape.height = $CollisionShape2D.shape.height + 1
-	
 	new_hitbox.set_collision_layer_value(7,1)
 	new_hitbox.set_collision_mask_value(7,1)
 	
@@ -114,7 +106,6 @@ func create_center():
 	new_collision.shape = new_shape
 	new_shape.size = Vector2(1,1)
 	
-	# edited 12/4 
 	new_center.set_collision_layer_value(1,0)
 	new_center.set_collision_mask_value(1,0)
 	new_center.set_collision_layer_value(5,1)
@@ -159,7 +150,6 @@ func loop_spritedir():
 	sprite.flip_h = (spritedir == "Left")
 
 func loop_damage():
-	#EDIT
 	if hitstun > 1:
 		hitstun -= 1
 	elif hitstun == 1:
@@ -266,7 +256,6 @@ func anim_switch(a):
 	add_child(new_weapon)
 	
 	new_weapon.set_multiplayer_authority(get_multiplayer_authority())
-	#if get_tree().get_nodes_in_group(weapon_group).size() > new_weapon.MAX_AMOUNT:
 	if get_tree().get_nodes_in_group(weapon_group).size() > new_weapon.MAX_AMOUNT:
 		new_weapon.delete()
 		return
@@ -288,9 +277,6 @@ func remove_last_item(group):
 
 func position_changed(value):
 	pos = value
-	# EDITED 12/4
-	#tween.interpolate_property(self, "position", position, pos, network.tick_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	#tween.start()
 	#create_tween().tween_property(self,"position",pos,network.tick_time) # HORRIBLE SPAWN LOCATION BUG
 
 func animation_changed(value):

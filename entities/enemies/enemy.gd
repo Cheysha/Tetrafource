@@ -11,9 +11,6 @@ func _ready():
 	spawn_position = home_position
 	add_to_group("enemy")
 	add_to_group("maphost")
-	#EDITED 12/5
-	#set_collision_layer_value(0, 0)
-	#set_collision_mask_value(0, 0)
 	set_collision_layer_value(1, 1)
 	set_collision_mask_value(1, 1)
 	if spawned_by != "":
