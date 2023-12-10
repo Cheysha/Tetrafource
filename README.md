@@ -11,28 +11,36 @@ After porting is complete, implemented features hope to include
 - UDP ENnet peer usage, over Websocket TCP
 - probally remove deticated AWS server stuff, uneeded for my uses
 
-## Roadmap
+## TODOS:
+Playability
 - [x] Game Boots
 - [x] Menus Work
 - [ ] Menus Complete (Fix ui nodes)
 - [x] Game loop Playable
 - [x] Transitions working
-- [ ] Entire Map Traversable
-- [x] MultiPlayer Server / Client working
+- [x] Entire Map Traversable
+- [x] MultiPlayer Server / Client visible
 - [ ] MultiPlayer Playable
+- [ ] some tiles dont spawn, eg, water, grass
+- [ ] cut tall_grass dont despawnfrom overworld, 
 
-##TODOS:
 Quality
-- fix ui font
-- fix ui backing elements
-- fix quiet audio (tweening maybe)
-- fix sign font
-- fix broken saving ui element that never goes away, signal issue?
-Immediate
-- room transitions take pplayer to (random?) wrong location
-- multiplayer crashes on client logon, client player not getting what it needs?
-- zone transitions bounce when changing between two, tween issue?
+- [ ] fix ui font
+- [ ] fix ui backing elements
+- [ ] fix quiet audio (tweening maybe)
+- [ ] fix sign font
+- [ ] fix broken saving ui element that never goes away, signal issue?
+- [ ] fix 4.x autotiles, water, etc
+
+Immediate issues
+- [x]room transitions take pplayer to (random?) wrong location/ tweening entity wrong
+- [ ] multiplayer crashes on client logon, client player not getting what it needs?
+- [ ] zone transitions bounce when changing between two, tween issue?
+- [ ] Enemies on overworld apper to be frozen
+- [ ] nothing destroyed from overwordld
+
 ## What Changed
+
 - this is a ton of work 
 - found really weird thing where one layer on one map had a -16 vertical offset, took away offset and fixed map. also took the line out of the import script that gave the offset back. idk what that was all about
 - changes in file acess api 

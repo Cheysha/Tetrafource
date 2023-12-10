@@ -56,10 +56,13 @@ func clean_session_data():
 	map_hosts = {}
 
 func complete(include_network = true):
-	tick.queue_free()
-	current_map.queue_free()
+	# EDITED 12.10
+	if tick:
+		tick.queue_free()
+	if current_map:
+		current_map.queue_free()
 	if include_network:
-		get_tree().set_multiplayer_peer(null)
+		get_tree().get_multiplayer().multiplayer_peer = null
 	clean_session_data()
 	pid = 1
 
@@ -292,7 +295,7 @@ func request_persistent_state(object):
 
 @rpc("any_peer") func _receive_state_request(nodepath):
 	var properties = states.get(nodepath, {})
-	rpc_id(get_tree().get_remote_sender_id(), "_receive_state", nodepath, properties)
+	rpc_id(get_tree().get_multiplayer().get_remote_sender_id(), "_receive_state", nodepath, properties)
 
 @rpc("any_peer") func _receive_state(nodepath, properties):
 	update_state(nodepath, properties)
@@ -320,14 +323,14 @@ func _create_object(object_path, object_name, object_parent):
 	var new_object = load(object_path).instantiate()
 	object_parent.add_child(new_object)
 	new_object.name = object_name
-	peer_call_id(get_tree().get_remote_sender_id(), new_object.get_node("NetworkObject"), "update_enter_properties", [pid])
+	peer_call_id(get_tree().get_multiplayer().get_remote_sender_id(), new_object.get_node("NetworkObject"), "update_enter_properties", [pid])
 
 func validate_object_id(id, object, question, function):
 	rpc_id(id, "_check_object", object.get_path(), question, function)
 
 @rpc("any_peer") func _check_object(object, question, function):
 	if has_node(object) == question:
-		rpc_id(get_tree().get_remote_sender_id(), "_pc", object, function)
+		rpc_id(get_tree().get_multiplayer().get_remote_sender_id(), "_pc", object, function)
 
 @rpc("any_peer") func _pc(object, function, arguments = []):
 	if has_node(object):

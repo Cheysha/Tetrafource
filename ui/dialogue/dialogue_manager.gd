@@ -123,10 +123,8 @@ func UpdateUI():
 		if curent_node_choices.size() > 0:
 			for x in clamp(curent_node_choices.size(),0,3):
 				dialogueButtons[x].text = curent_node_choices[x]["text"]
-				#EDITED 12/8
-				dialogueButtons[x].connect("pressed", Callable(self, "_on_button_Pressed").bind(curent_node_choices[x]["next_id"]))
 				#connecto to button
-				#dialogueButtons[x].connect("pressed", Callable(self, "_on_Button_Pressed").bind(curent_node_choices[x]["next_id"))
+				dialogueButtons[x].connect("pressed", Callable(self, "_on_button_Pressed").bind(curent_node_choices[x]["next_id"]))
 				dialogueButtons[x].show()
 				dialogueButtons[0].grab_focus()
 				
@@ -141,7 +139,6 @@ func UpdateUI():
 	else:
 		get_parent().action_cooldown = 10
 		get_parent().state = "default"
-		#dialogueText.percent_visible = 0
 		dialogueText.visible_ratio = 0
 		emit_signal("finished")
 		queue_free()

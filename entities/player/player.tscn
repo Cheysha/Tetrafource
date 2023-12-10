@@ -535,6 +535,7 @@ z_index = 100
 collision_layer = 1090
 script = ExtResource("3")
 TYPE = "PLAYER"
+SPEED = 100
 DAMAGE = 0.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

@@ -64,22 +64,22 @@ func initialize():
 		ray.add_exception($ZoneHandler)
 		ray.add_exception(hitbox)
 		ray.add_exception(center)
-
+		
 		$ZoneHandler.connect("area_entered", Callable(self, "change_zone"))
-
-
-		var t = $ZoneHandler.get_overlapping_areas()
-		var zone : Area2D = $ZoneHandler.get_overlapping_areas()[0] #zonehandler on player, checking overlap between handler and zone itself
-
-		var zone_collision_shape : CollisionShape2D = zone.get_node("Rectangle Shape") # collisionshape
+		await get_tree().process_frame # WE NEED 2 OF THEESE
+		await get_tree().process_frame 
+		
+		# get the zone the player is in
+		var zone : Area2D = $ZoneHandler.get_overlapping_areas()[0] 
+		var zone_collision_shape : CollisionShape2D = zone.get_node("Rectangle Shape") # YATI nameing thing
 		var zone_size = zone_collision_shape.get_shape().get_rect().size
 		var zone_rect2 = Rect2(zone.position,zone_size) 
 		current_zone = zone
+		
+		# put the camera on the player
 		camera.set_limits(zone_rect2)
 		camera.position_smoothing_enabled = true
-		
 		await get_tree().process_frame
-
 		camera.position = position
 		camera.reset_smoothing()
 		camera.set_process(true)
