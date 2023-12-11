@@ -3,7 +3,7 @@ extends StaticBody2D
 @onready var ray = $RayCast2D
 #@onready var tween = $Tween
 
-@onready var target_position = position: set = set_position
+@onready var target_position = position: set = _set_position
 @onready var pushed = false: set = set_pushed
 
 signal update_persistent_state
@@ -30,7 +30,7 @@ func attempt_move(direction):
 		network.peer_call(self, "set_pushed", [pushed])
 		network.set_state(self,{"target_position":target_position, "pushed":pushed})
 
-func set_position(value):
+func _set_position(value):
 	position = value
 	
 func set_pushed(value):

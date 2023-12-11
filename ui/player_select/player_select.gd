@@ -32,5 +32,5 @@ func _ready():
 func get_manager():
 	return $saves
 
-func grab_focus():
-	$return.grab_focus()
+#func grab_focus():
+	#$return.grab_focus()

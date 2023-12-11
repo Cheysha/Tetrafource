@@ -63,7 +63,7 @@ func _physics_process(delta):
 			
 	loop_movement()
 	loop_spritedir()
-	loop_holes()
+
 
 	
 
@@ -71,7 +71,8 @@ func _bombed(show_animation=true):
 	$CollisionShape2D.queue_free()
 	bombed = true
 	if show_animation:
-		var animation = preload("res://effects/bombable_rock_explosion.tscn").instantiate()
+		#var animation = preload("res://effects/bombable_rock_explosion.tscn").instantiate()
+		animation = preload("res://effects/bombable_rock_explosion.tscn").instantiate()
 		get_parent().add_child(animation)
 		animation.position = position
 	await get_tree().idle_frame

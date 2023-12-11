@@ -13,6 +13,8 @@ func _ready():
 	add_to_group("maphost")
 	set_collision_layer_value(1, 1)
 	set_collision_mask_value(1, 1)
+	set_collision_layer_value(2, 1)
+	set_collision_mask_value(2, 1)
 	if spawned_by != "":
 		set_dead()
 		map.get_node(spawned_by).connect("started", Callable(self, "spawned"))
@@ -25,8 +27,8 @@ func _process(delta):
 	super(delta)
 
 func set_hole_bit(bit):
-	set_collision_layer_value(7, bit)
-	set_collision_mask_value(7, bit)
+	set_collision_layer_value(8, bit)
+	set_collision_mask_value(8, bit)
 
 func check_for_death():
 	if health <= 0:
@@ -50,6 +52,9 @@ func enemy_death(pos):
 
 func set_health(value):
 	health = value
+	# recursion loop, this WILL cause issues later
+	if value == -1:
+		return
 	if health <= 0:
 		set_dead()
 

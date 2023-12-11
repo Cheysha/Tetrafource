@@ -73,11 +73,11 @@ func initialize():
 		var zone : Area2D = $ZoneHandler.get_overlapping_areas()[0] 
 		var zone_collision_shape : CollisionShape2D = zone.get_node("Rectangle Shape") # YATI nameing thing
 		var zone_size = zone_collision_shape.get_shape().get_rect().size
-		var zone_rect2 = Rect2(zone.position,zone_size) 
+		var zone_limits = Rect2(zone.position,zone_size) 
 		current_zone = zone
 		
 		# put the camera on the player
-		camera.set_limits(zone_rect2)
+		camera.set_limits(zone_limits)
 		camera.position_smoothing_enabled = true
 		await get_tree().process_frame
 		camera.position = position
@@ -95,7 +95,6 @@ func initialize():
 		set_physics_process(true)
 		global.changing_map = false
 		
-	network.current_map.emit_signal("player_entered", name.to_int())
 
 func _physics_process(_delta):
 	if !is_multiplayer_authority():
@@ -126,17 +125,7 @@ func _physics_process(_delta):
 	
 	screen_position = position - camera.position
 	animation = anim.current_animation
-	
-	#if Rect2(Vector2(0,0), Vector2(72, 22)).has_point(screen_position) && state != "menu":
-	#	hud.hide_hearts()
-	#else:
-	#	hud.show_hearts()
-	
-	#if Rect2(Vector2(192, 0), Vector2(64, 30)).has_point(screen_position) && state != "menu":
-	#	hud.hide_buttons()
-	#else:
-	#	hud.show_buttons()
-	
+
 	set_lightdir()
 	
 	check_for_invunerable()
@@ -152,7 +141,6 @@ func state_default():
 	loop_damage()
 	loop_action_button()
 	loop_interact()
-	loop_holes()
 	
 	if(Input.is_action_just_pressed("QUICK_SAVE")):
 		global.quicksave_game_data()
@@ -176,7 +164,7 @@ func state_swing():
 	anim_switch("swing")
 	loop_movement()
 	loop_damage()
-	loop_holes()
+	#loop_holes()
 	movedir = Vector2.ZERO
 
 
@@ -184,7 +172,6 @@ func state_hold():
 	loop_controls()
 	loop_movement()
 	loop_damage()
-	loop_holes()
 	if movedir == Vector2.ZERO:
 		anim_switch("idle")
 		push_counter = 0
@@ -274,6 +261,12 @@ func state_acquire():
 	animation = "acquire"
 	anim.play("acquire")
 	
+func state_die():
+	if anim.assigned_animation != "die":
+		animation = "die"
+		anim.play("die")
+		network.peer_call(anim, "play", ["die"])
+		
 func check_for_invunerable():
 	if invunerable >= 1 && health > 0:
 		$AnimationPlayer/invunerable.play("invunerable")
@@ -281,12 +274,6 @@ func check_for_invunerable():
 	else: 
 		$AnimationPlayer/invunerable.play("visible")
 		network.peer_call($AnimationPlayer/invunerable, "play", ["visible"])
-		
-func state_die():
-	if anim.assigned_animation != "die":
-		animation = "die"
-		anim.play("die")
-		network.peer_call(anim, "play", ["die"])
 		
 func death_effect():
 	var death_animation = preload("res://effects/enemy_death.tscn").instantiate()
@@ -313,11 +300,12 @@ func respawn():
 	network.peer_call(self, "reset_collision")
 	network.peer_call(self, "set_hurt_texture", [false])
 	state = "default"
-
+# why is this here when parent does this when setting health??
 func check_for_death():
 	if health <= 0 && state != "die":
 		state = "die"
 
+# not an optimal; way to do things in godot4
 func loop_controls():
 	movedir = Vector2.ZERO
 	
@@ -345,9 +333,9 @@ func loop_action_button():
 		hud.show_esc_menu()
 
 func loop_interact():
-	if ray.is_colliding():
+	if ray.is_colliding(): 
 		var collider = ray.get_collider()
-		if collider.is_in_group("interactable"):
+		if collider.is_in_group("interactable"): # null? collider been cut
 			hud.show_action()
 		if collider.is_in_group("interactable") && Input.is_action_just_pressed("A"):
 			collider.interact(self)
@@ -391,9 +379,9 @@ func set_lightdir():
 			$PointLight2D.rotation_degrees = 0
 
 func change_zone(zone):
-	#Edited 12/4 new importer is changing names
-	var zone_size = zone.get_node("Rectangle Shape").shape.size * 2
+	var zone_size = zone.get_node("Rectangle Shape").shape.size
 	var zone_rect = Rect2(zone.position, zone_size)
+	
 	camera.scroll_screen(zone_rect)
 	sfx.set_music(zone.music, zone.musicfx)
 	camera.set_light(zone.light)

@@ -322,7 +322,6 @@ func load_options():
 		return
 	var load_options = FileAccess.open("user://options.json", FileAccess.READ)
 	var test_json_conv = JSON.new()
-	#test_json_conv.parse(load_options.get_line())
 	var loaded_options = test_json_conv.parse_string(load_options.get_as_text())
 	for option in loaded_options.keys():
 		options[option] = loaded_options.get(option)

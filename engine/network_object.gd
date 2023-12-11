@@ -26,6 +26,7 @@ func _tick():
 	if is_multiplayer_authority():
 		update_sync()
 
+
 func player_entered(id):
 	if require_map_host && !network.is_map_host():
 		return

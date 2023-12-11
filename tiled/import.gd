@@ -24,6 +24,11 @@ func _post_process(imported_scene):
 					zone.get_node("Rectangle Shape").shape.size -= Vector2(8,8)
 					zone.set_collision_layer_value(1, 0)
 					zone.set_collision_mask_value(1, 0)
+					
+					# make it so zone can detect enemy colliders
+					zone.set_collision_layer_value(2, 1)
+					zone.set_collision_mask_value(2, 1)
+					
 					zone.set_collision_layer_value(11, 1)
 					zone.set_collision_mask_value(11, 1)
 					zone.set_script(preload("res://engine/zone.gd"))

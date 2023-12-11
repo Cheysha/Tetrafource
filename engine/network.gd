@@ -56,7 +56,6 @@ func clean_session_data():
 	map_hosts = {}
 
 func complete(include_network = true):
-	# EDITED 12.10
 	if tick:
 		tick.queue_free()
 	if current_map:
@@ -77,24 +76,22 @@ func initialize():
 		player_data[1] = global.options.player_data
 	elif !dedicated:
 		pid = get_tree().get_multiplayer().get_unique_id()
-		var t = IdentityService.my_identity.token
 		rpc_id(1, "_receive_my_player_token", IdentityService.my_identity.token)
 		rpc_id(1, "_receive_my_player_data", global.options.player_data)
 		rpc_id(1, "_receive_my_version", global.version)
 	
 	start_empty_timeout()
-	
 	await get_tree().create_timer(0.1).timeout
-	
 	global.emit_signal("debug_update")
-	
+
+'''	
 @rpc("any_peer") func _get_system_arrays(state, value):
 	#This is to update Arrays for Late Session Joins. Does Nothing, needs to be worked on
 	states[state] = state
 	match state:
 			"weapons", "items", "pearl":
 				pass
-
+'''
 @rpc("any_peer") func _receive_my_player_token(token):
 	var identity = IdentityService.load_token(token)
 	var player_id = get_tree().get_multiplayer().get_remote_sender_id()
@@ -308,9 +305,10 @@ func peer_call(object, function, arguments = []):
 	for peer in map_peers:
 		rpc_id(peer, "_pc", object.get_path(), function, arguments)
 
+@rpc("unreliable")
 func peer_call_unreliable(object, function, arguments = []):
 	for peer in map_peers:
-		rpc_id(peer, "_pc", object.get_path(), function, arguments)
+		rpc_id(peer, "_pc", object.get_path(), function, arguments) # was unreliable
 		
 
 func peer_call_id(id, object, function, arguments = []):

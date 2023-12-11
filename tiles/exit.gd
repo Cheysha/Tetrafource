@@ -10,7 +10,6 @@ func _ready():
 	spritedir()
 
 func body_entered(body):
-	print_debug("hit exit",body.name)
 	if body.is_in_group("player") && body.is_multiplayer_authority():
 		global.health = body.health
 		body.state = "interact" # dont think this is used

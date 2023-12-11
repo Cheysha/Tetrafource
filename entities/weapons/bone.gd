@@ -32,8 +32,8 @@ func _physics_process(delta):
 func body_entered(body):
 	if !received_sync && !is_multiplayer_authority() && body != shooter:
 		queue_free()
-	elif body.get_collision_layer_value(7) == true:
-		return
+	#elifx body.get_collision_layer_value(7) == true:
+		#return
 	elif body is Entity && body != shooter:
 		damage(body)
 	elif body != shooter:

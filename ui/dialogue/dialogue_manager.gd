@@ -150,13 +150,10 @@ func Dialogue_Anim():
 	is_finished = false
 	$"DialogueUI/next-indicator".hide()
 	var line_speed = (curent_node_text.length() * 0.02)
-	#EDITED 12/8
 	var t : Tween = create_tween()
 	t.tween_property(dialogueText,"visible_ratio",1,line_speed)
 	t.tween_method(Callable(self,"_play_snd"),0,0,0)
 	t.tween_callback(Callable(self,"_on_Tween_tween_all_completed"))
-	#tween.interpolate_property(dialogueText,"percent_visible",0,1,line_speed, Tween.TRANS_LINEAR)
-	#tween.start()
 
 #-----On Button Pressed-----#
 func _on_Button_Pressed(id):
@@ -171,7 +168,6 @@ func Begin_Dialogue():
 
 #-----Prompt Once Text Complete-----#
 func _on_Tween_tween_all_completed():
-	#EDITED12/8
 	is_finished = true
 	$"DialogueUI/next-indicator".show()
 	if curent_node_choices.size() != null:

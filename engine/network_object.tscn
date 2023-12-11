@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://c6ecibnemwvbx"]
 
-[ext_resource path="res://engine/network_object.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://engine/network_object.gd" id="1"]
 
 [node name="NetworkObject" type="Node"]
-script = ExtResource( 1 )
+script = ExtResource("1")

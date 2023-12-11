@@ -2,6 +2,10 @@ extends CharacterBody2D
 
 class_name Entity
 
+enum spritedirz {Up, Down, Left, Right}
+enum statez {default}
+enum animationz {idleDown}
+
 # ATTRIBUTES
 @export var TYPE = "ENEMY" # (String, "ENEMY", "PLAYER", "TRAP")
 @export var MAX_HEALTH = 1 # (float, 0.5, 20, 0.5)
@@ -9,48 +13,47 @@ class_name Entity
 @export var DAMAGE = 0.5 # (float, 0, 20, 0.5)
 
 # MOVEMENT
-var movedir = Vector2(0,0)
-var knockdir = Vector2(0,0)
+var movedir : Vector2 = Vector2(0,0)
+var knockdir : Vector2  = Vector2(0,0)
 var spritedir = "Down"
-var last_movedir = Vector2(0,1)
+var last_movedir : Vector2  = Vector2(0,1)
 var last_safe_pos = position
 
 # COMBAT
-var health = MAX_HEALTH: set = set_health
-var hitstun = 0
-var invunerable = 0
+var health : int = MAX_HEALTH: set = set_health
+var hitstun : int = 0
+var invunerable : int = 0
 var hurt_sfx = "hit_hurt"
 signal health_changed
 signal update_count
 
 var state = "default"
-var home_position = Vector2(0,0)
+var home_position : Vector2 = Vector2(0,0)
 
-@onready var anim = $AnimationPlayer
-@onready var sprite = $Sprite2D
-var hitbox 
-var center
-var camera
+@onready var anim : AnimationPlayer = $AnimationPlayer
+@onready var sprite : Sprite2D = $Sprite2D
+var hitbox : Area2D
+var center : Area2D
+var camera : Camera2D
 var walkfx
 @onready var map = get_parent()
 
-var pos = Vector2(0,0): set = position_changed
+var pos : Vector2 = Vector2(0,0): set = position_changed
 var animation = "idleDown": set = animation_changed
 
 signal update_persistent_state
-
 signal killed
 signal damaged
 
 func _ready():
 	set_process(false)
 	add_to_group("entity")
-	
 	map = get_game(self)
 	
 	if !sprite.material:
 		sprite.material = ShaderMaterial.new()
 		sprite.material.set_shader(preload("res://entities/entity.gdshader"))
+		
 	health = MAX_HEALTH
 	home_position = position
 	pos = position
@@ -59,16 +62,10 @@ func _ready():
 
 	walkfx = preload("res://effects/walkfx.tscn").instantiate()
 	add_child(walkfx)
-	#map.connect("player_entered", self, "player_entered")
 	set_collision_layer_value(10, 1)
-	#set_collision_mask_value(10,1) not me 
+	
 	set_process(true)
 
-func get_game(node):
-	var game = node.get_parent()
-	while game != null and not game.has_method("is_game"):
-		game = game.get_parent()
-	return game
 
 func _process(delta):
 	walkfx.hide()
@@ -117,7 +114,6 @@ func create_center():
 	
 	new_center.position.y += 6
 	center = new_center
-	
 
 func loop_movement():
 	var motion
@@ -135,7 +131,7 @@ func loop_movement():
 		last_movedir = movedir
 
 func loop_spritedir():
-	var old_spritedir = spritedir
+	#var old_spritedir = spritedir
 	
 	match movedir:
 		Vector2.LEFT:
@@ -176,26 +172,6 @@ func loop_damage():
 			continue
 		if body.get("DAMAGE") > 0 && body.get("TYPE") != TYPE:
 			damage(body.DAMAGE, global_position - body.global_position, body)
-
-func loop_holes():
-	#EDIT
-	return
-	if get_collision_layer_value(7) == true:
-		return
-	for body in center.get_overlapping_bodies():
-		if body is Holes:
-			var hole_origin = body.map_to_local(body.local_to_map(position.round() + Vector2(0,6))) + Vector2(8,8)
-			var hole_hitbox = Rect2(hole_origin - Vector2(5,5), Vector2(10,10))
-			position = position.lerp(hole_origin, 0.1) # there's a way to lerp w/ delta time i forgot it tho
-			position += Vector2(0, randf_range(-1,0))
-			if hole_hitbox.has_point(position + Vector2(0,4)):
-				create_hole_fx(hole_origin)
-				network.peer_call(self, "create_hole_fx", [hole_origin])
-				hole_fall()
-				network.peer_call(self, "hole_fall")
-
-func hole_fall():
-	pass # has always been this way
 
 func create_hole_fx(pos):
 	var hole_fx = preload("res://effects/hole_falling.tscn").instantiate()
@@ -289,3 +265,10 @@ func set_health(value):
 	
 func reset_collision():
 	$CollisionShape2D.disabled = false
+	
+func get_game(node):
+	var game = node.get_parent()
+	while game != null and not game.has_method("is_game"):
+		game = game.get_parent()
+	return game
+

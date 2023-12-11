@@ -2,7 +2,7 @@ extends CanvasLayer
 
 signal entrance_chosen
 
-@onready var vbox = $Panel/ScrollContainer/VBoxContainer
+@onready var vbox : VBoxContainer = $Panel/ScrollContainer/VBoxContainer
 
 var desired_entrance
 

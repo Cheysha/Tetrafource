@@ -2,12 +2,12 @@ extends Node
 
 signal player_entered
 
-var camera = preload("res://entities/player/camera.tscn").instantiate()
+var camera : Camera2D = preload("res://entities/player/camera.tscn").instantiate()
 @export var music = ""
 @export var musicfx = ""
 @export var light = "default"
-
-var current_enemies = []
+@export var active_zones :Array[Node2D]
+@export var active_enemies :Array[Node2D]
 
 func is_game():
 	return true
@@ -17,6 +17,7 @@ func _ready():
 	add_child(camera)
 	network.map_peers = []
 	
+	# if no entrance was specified, pick one with the entrance_picker
 	if global.next_entrance == "":
 		screenfx.play("fadewhite")
 		screenfx.seek(10)
@@ -30,6 +31,7 @@ func _ready():
 	for player in network.player_list.keys():
 		if network.player_list[player] == name:
 			add_new_player(player)
+			
 	# force the server to acknowledge this player's presence
 	network.send_current_map() # starts player list updates
 	screenfx.play("fadein")
@@ -42,8 +44,9 @@ func _process(delta): # can be on screen change instead of process
 	
 	update_spiritpearls()
 	
-	var active_zones = []
-	var active_enemies = []
+	# Reset our active areas every frame
+	active_zones = []
+	active_enemies = []
 	
 	# find zones with players and make themm active
 	for player in get_tree().get_nodes_in_group("player"):
@@ -53,10 +56,12 @@ func _process(delta): # can be on screen change instead of process
 			if !active_zones.has(player_zone):
 				active_zones.append(player_zone)
 	
+	# get all enemies in active areas 
 	for zone in active_zones:
 		for enemy in zone.get_enemies():
 			active_enemies.append(enemy)
 	
+	# make it so only entites in active areas update
 	for entity in get_tree().get_nodes_in_group("entity"):
 		if entity is Player:
 			continue
@@ -94,7 +99,7 @@ func remove_player(id):
 	for node in get_tree().get_nodes_in_group(str(id)):
 		node.queue_free()
 
-func update_puppets():
+func update_puppets(): # called from network.gd
 	var player_nodes = get_tree().get_nodes_in_group("player")
 	var player_names = []
 	for player in player_nodes:
@@ -110,12 +115,13 @@ func update_puppets():
 	for id in network.map_peers:
 		if !player_names.has(id): # if there's fewer names than peers
 			add_new_player(id) # add a new node for that name
-
+			
+'''
 func _player_entered(id):
 	return # always this way
 	if id != network.pid:
 		print("player ", id, " entered")
-
+'''
 func pick_collectable():
 	var choice = randi() % 4
 	match choice:

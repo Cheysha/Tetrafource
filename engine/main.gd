@@ -4,11 +4,9 @@ extends Control
 var default_map = "res://maps/shrine.tmx"
 var default_entrance = "player_start"
 @export var default_port : int = 7777
-var server_api : Node = preload("res://engine/server_api.gd").new()
 
 @onready var address_line : LineEdit = $multiplayer/Direct/address
 @onready var lobby_line : LineEdit = $multiplayer/Automatic/lobby
-#onready var endpoint_button = $options/scroll/vbox/endpoint JosephB Needs to confirm deletion
 @onready var singleplayer_focus : Button = $top/VBoxContainer/singleplayer
 @onready var loading_screen : Control = $loading_screen_layer/loading_screen
 
@@ -21,16 +19,11 @@ func _ready():
 	
 	get_tree().get_multiplayer().connect("connected_to_server", Callable(self, "_client_connect_ok"))
 	get_tree().get_multiplayer().connect("connection_failed", Callable(self, "_client_connect_fail"))
-	network.connect("end_aws_task", Callable(self, "end_aws_task"))
-	
+
 	get_tree().set_auto_accept_quit(false)
 	
-	add_child(server_api)
-	
-	#endpoint_button.add_item("Production")
-	#endpoint_button.add_item("Stage")
-	_on_endpoint_item_selected(0)
-	
+	#add_child(server_api)
+
 	if OS.get_name() == "HTML5":
 		$multiplayer/Manual/host.disabled = true
 	
@@ -58,17 +51,14 @@ func _ready():
 	if OS.get_name() == "Server" || arguments.get("dedicatedserver") == "true":
 		var empty_timeout = get_empty_server_timeout(arguments)
 		set_dedicated_server(empty_timeout)
-	
-	#print(yield(server_api.get_servers(), "completed"))
-	
+
 	await get_tree().create_timer(0.5).timeout
 	sfx.set_music("shrine", "quiet")
 	singleplayer_focus.grab_focus()
 
 func get_empty_server_timeout(arguments):
 	var empty_timeout
-	
-	var empty_timeout_arg = arguments.get("empty-server-timeout")   # don't set default here
+	var empty_timeout_arg = arguments.get("empty-server-timeout")   # don't set default here, fair enough
 	if empty_timeout_arg != null:
 		if empty_timeout_arg.is_valid_int():
 			var empty_timeout_arg_int = int(empty_timeout_arg)
@@ -115,9 +105,8 @@ func host_server(dedicated = false, empty_timeout = 0, port = default_port, max_
 	var ws = WebSocketMultiplayerPeer.new()
 	ws.create_server(port)
 	get_tree().get_multiplayer().set_multiplayer_peer(ws)
-	
-	#var err = ws.listen(port);
-	#if err != OK:
+
+	#if ws != connected:
 		#print("Port in use")
 		#return
 	
@@ -133,74 +122,10 @@ func join_server(ip, port):
 		return
 	
 	var ws = WebSocketMultiplayerPeer.new()
-
-	
 	#ws.connect("server_close_request", Callable(self, "_client_disconnect")) # refactor
 	var url = "ws://%s:%s" % [ip, port]
 	ws.create_client(url)
-	#ws.connect_to_url(url);
 	get_tree().get_multiplayer().set_multiplayer_peer(ws)
-
-func join_aws(lobby_name):
-
-	# Attempt to join existing server
-	if not await attempt_to_join_aws_sever(lobby_name):
-		
-		# Request new server
-		loading_screen.with_load("Creating '%s'" % lobby_name, 25)
-		var new_lobby = await server_api.create_server(lobby_name)
-		print("API Response: %s" % new_lobby)
-		
-		# Handle response based on result
-		if new_lobby.success:
-			
-			# Attempt to get server info 15 times
-			for i in range(15):
-				await get_tree().create_timer(8.0).timeout
-				if await attempt_to_join_aws_sever(lobby_name, true):
-					return
-
-			# Timeout if no sever info found
-			print("Server creation timeout!")
-			loading_screen.stop_loading()
-			open_error_message("Server creation timeout!")
-		else:
-			loading_screen.stop_loading()
-			open_error_message("Failed to create server: %s" % new_lobby.message)
-
-func attempt_to_join_aws_sever(lobby_name, hide_loading_message = false) -> bool:
-	if not hide_loading_message:
-		loading_screen.with_load("Connecting to '%s'" % lobby_name, 0)
-
-	var waitingOnServer = true
-
-	while waitingOnServer:
-		# Look up lobby
-		var lobby = await server_api.get_server(lobby_name)
-		print("API Response: %s" % lobby)
-		
-		# Return and act on result
-		if lobby.success == true:
-			if "status" in lobby.data:
-				if lobby.data.status == "RUNNING":
-					join_server(lobby.data.ip, lobby.data.port)
-					return true
-				elif lobby.data.status in ["PENDING", "PROVISIONING"]:
-					loading_screen.with_load("'%s' pending" % lobby_name, 50)
-					await get_tree().create_timer(5.0).timeout
-				else:
-					print("%s has status: %s", [lobby_name, lobby.data.status])
-					waitingOnServer = false
-			else:
-				print("%s missing status!" % lobby_name)
-				waitingOnServer = false
-		else:
-			waitingOnServer = false
-
-	return false
-
-func end_aws_task(task_name):
-	print(await server_api.stop_server(task_name))
 
 func _client_connect_ok():
 	loading_screen.stop_loading(100)
@@ -224,7 +149,7 @@ func end_game():
 	screenfx.play("default")
 
 func quit_program():
-	get_tree().get_multiplayer().clear()
+	get_tree().get_multiplayer().multiplayer_peer = null 
 	get_tree().quit()
 	
 
@@ -242,10 +167,6 @@ func hide_menus():
 func _notification(n):
 	if (n == NOTIFICATION_WM_CLOSE_REQUEST):
 		quit_program()
-
-func _on_connect_pressed():
-	#print(yield(server_api.stop_server(lobby_line.text), "completed"))
-	join_aws(lobby_line.text)
 
 func _on_host_pressed():
 	host_server(false)
@@ -300,13 +221,6 @@ func _on_returned_pressed():
 
 func _on_save_pressed():
 	global.save_options()
-
-func _on_endpoint_item_selected(index):
-	match index:
-		0:
-			server_api.api_endpoint = "api.online.tetraforce.io"
-		1:
-			server_api.api_endpoint = "stage.api.online.tetraforce.io"
 
 func _on_mouse_entered():
 	sfx.play("item_select")

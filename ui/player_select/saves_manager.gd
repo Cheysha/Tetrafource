@@ -44,7 +44,8 @@ func refresh_saves():
 	update_gui()
 
 func _process(delta):
-	delete_button.visible == (len(global.get_saves()) <= 0)
+	#delete_button.visible == (len(global.get_saves()) <= 0)
+	pass
 
 func on_confirm_request(source, message):
 	pending_confirm_source = source

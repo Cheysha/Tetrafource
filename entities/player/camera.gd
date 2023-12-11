@@ -40,7 +40,7 @@ func scroll_screen(rect : Rect2):
 	scroll_to.x = clamp(scroll_to.x, scroll_to_min.x + 16, scroll_to_max.x)
 	scroll_to.y = clamp(scroll_to.y, scroll_to_min.y + 16, scroll_to_max.y)
 
-	create_tween().tween_property(self,"position",scroll_to,SCROLL_DURATION)
+	#create_tween().tween_property(self,"position",scroll_to,SCROLL_DURATION) causing weird bump
 
 	
 	set_limits(rect)

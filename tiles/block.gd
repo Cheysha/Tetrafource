@@ -26,30 +26,26 @@ func attempt_move(direction):
 	if !ray.is_colliding() && !pushed:
 		target_position = (position + direction * 16).snapped(Vector2(16,16)) - Vector2(8,8)
 		set_pushed(true)
-		move_to(position, target_position)
+		move_to(target_position)
 		network.peer_call(self, "move_to", [position, target_position])
 		network.peer_call(self, "set_pushed", [pushed])
 
 func set_block_position(value):
 	target_position = value
-	snap_to(position, target_position)
+	snap_to(target_position)
 
 func set_pushed(value):
 	pushed = value
 
-func move_to(current_pos, target_pos):
-	#tween.interpolate_property(self, "position", current_pos, target_pos, 1.0, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	#tween.start()
+func move_to(target_pos):
 	create_tween().tween_property(self,"position",target_pos,1)
 	sfx.play("push")
 
-func snap_to(current_pos, target_pos):
-	#tween.interpolate_property(self, "position", current_pos, target_pos, 0.1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	#tween.start()
+func snap_to(target_pos):
 	create_tween().tween_property(self,"position",target_pos,0.1)
 	
-func set_default_state(action_zone=null):
+func set_default_state():
 	set_pushed(false)
 	target_position = home_position
-	snap_to(target_position, home_position)
+	snap_to(home_position)
 	
