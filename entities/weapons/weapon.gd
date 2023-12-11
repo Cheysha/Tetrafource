@@ -32,7 +32,7 @@ func damage(body):
 		body.damage(DAMAGE, knockdir, self)
 	elif is_multiplayer_authority():
 		if body is Player:
-			network.peer_call_id(int(body.name), body, "damage", [DAMAGE, knockdir])
+			network.peer_call_id(body.name.to_int(), body, "damage", [DAMAGE, knockdir])
 		else:
 			network.peer_call_id(network.get_map_host(), body, "damage", [DAMAGE, knockdir])
 	if delete_on_hit:

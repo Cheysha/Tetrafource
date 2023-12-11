@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 var player
-var credits
+#var credits
 var timer = Timer.new()
 var max_pearls = 4
 var spiritpearls = 0

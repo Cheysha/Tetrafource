@@ -41,7 +41,6 @@ func _physics_process(delta):
 	loop_spritedir()
 	loop_movement()
 	loop_damage()
-	loop_holes()
 	set_direction()
 	
 	if movedir != Vector2.ZERO:

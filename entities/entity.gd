@@ -36,7 +36,7 @@ var hitbox : Area2D
 var center : Area2D
 var camera : Camera2D
 var walkfx
-@onready var map = get_parent()
+@onready var map  = get_parent()
 
 var pos : Vector2 = Vector2(0,0): set = position_changed
 var animation = "idleDown": set = animation_changed
@@ -67,7 +67,7 @@ func _ready():
 	set_process(true)
 
 
-func _process(delta):
+func _process(_delta):
 	walkfx.hide()
 	for body in center.get_overlapping_bodies():
 		if body.is_in_group("fxtile"):
@@ -131,8 +131,6 @@ func loop_movement():
 		last_movedir = movedir
 
 func loop_spritedir():
-	#var old_spritedir = spritedir
-	
 	match movedir:
 		Vector2.LEFT:
 			spritedir = "Left"
@@ -253,6 +251,8 @@ func remove_last_item(group):
 
 func position_changed(value):
 	pos = value
+	# i think its here,
+	position = pos
 	#create_tween().tween_property(self,"position",pos,network.tick_time) # HORRIBLE SPAWN LOCATION BUG
 
 func animation_changed(value):

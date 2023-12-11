@@ -9,7 +9,6 @@ var manager : get = get_manager
 @onready var confirm_overlay = $confirm_overlay
 
 func _ready():
-
 	if input_overlay:
 		input_overlay.hide()
 		$saves.input_overlay = input_overlay

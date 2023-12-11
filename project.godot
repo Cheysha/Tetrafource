@@ -23,6 +23,10 @@ global="*res://engine/global.gd"
 sfx="*res://sound/sound.gd"
 IdentityService="*res://addons/identity-service/IdentityService.gd"
 
+[debug]
+
+gdscript/warnings/enable=false
+
 [display]
 
 window/size/viewport_width=256

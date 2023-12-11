@@ -84,14 +84,13 @@ func initialize():
 	await get_tree().create_timer(0.1).timeout
 	global.emit_signal("debug_update")
 
-'''	
 @rpc("any_peer") func _get_system_arrays(state, value):
 	#This is to update Arrays for Late Session Joins. Does Nothing, needs to be worked on
 	states[state] = state
 	match state:
 			"weapons", "items", "pearl":
 				pass
-'''
+
 @rpc("any_peer") func _receive_my_player_token(token):
 	var identity = IdentityService.load_token(token)
 	var player_id = get_tree().get_multiplayer().get_remote_sender_id()

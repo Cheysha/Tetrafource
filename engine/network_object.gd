@@ -6,7 +6,7 @@ extends Node
 @export var update_properties: Dictionary = {}
 @export var enter_properties: Dictionary = {}
 
-@onready var game = get_parent()
+@onready var game   = get_parent()
 
 func _ready():
 	if game.has_method("get_game"):

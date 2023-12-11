@@ -34,7 +34,6 @@ func _physics_process(delta):
 	loop_movement()
 	loop_spritedir()
 	loop_damage()
-	loop_holes()
 	$PlayerDetect/CollisionShape2D.shape.radius = radius
 
 	if movetimer > 0:

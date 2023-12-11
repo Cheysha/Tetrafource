@@ -10,8 +10,9 @@ After porting is complete, implemented features hope to include
 - improved Godot 4 utilization, eg improved tilemaps
 - UDP ENnet peer usage, over Websocket TCP
 - probally remove deticated AWS server stuff, uneeded for my uses
+- maybe porting the project to c#, really missing static typing, maybe just give hints throughout entire project
 
-## TODOS:
+## Current State:
 Playability
 - [x] Game Boots
 - [x] Menus Work
@@ -19,10 +20,13 @@ Playability
 - [x] Game loop Playable
 - [x] Transitions working
 - [x] Entire Map Traversable
-- [x] MultiPlayer Server / Client visible
-- [ ] MultiPlayer Playable
+- [x] MultiPlayer Server / Client working
+- [x] MultiPlayer Playable
 - [ ] some tiles dont spawn, eg, water, grass
-- [ ] cut tall_grass dont despawnfrom overworld, 
+
+## TODOS:
+Immediate issues
+- [ ] cave crashes on entry
 
 Quality
 - [ ] fix ui font
@@ -32,15 +36,14 @@ Quality
 - [ ] fix broken saving ui element that never goes away, signal issue?
 - [ ] fix 4.x autotiles, water, etc
 
-Immediate issues
-- [x]room transitions take pplayer to (random?) wrong location/ tweening entity wrong
-- [ ] multiplayer crashes on client logon, client player not getting what it needs?
-- [ ] zone transitions bounce when changing between two, tween issue?
-- [ ] Enemies on overworld apper to be frozen
-- [ ] nothing destroyed from overwordld
 
-## What Changed
-
+## Issue Tracker
+- [x] multiplayer, otherplayers not visible, network object is updating, but not updateing playernode?/ entity. pos to position
+- [x] room transitions take pplayer to (random?) wrong location/ tweening entity wrong
+- [x] multiplayer crashes on client logon, client player not getting what it needs? / numerous, fixed
+- [x] zone transitions bounce when changing between two, tween issue? / tween issue
+- [x] Enemies on overworld apper to be frozen / active zone, collisionlayer
+- [x] nothing destroyed from overwordld / tilemap update
 - this is a ton of work 
 - found really weird thing where one layer on one map had a -16 vertical offset, took away offset and fixed map. also took the line out of the import script that gave the offset back. idk what that was all about
 - changes in file acess api 

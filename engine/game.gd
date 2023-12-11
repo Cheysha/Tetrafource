@@ -1,5 +1,7 @@
 extends Node
 
+class_name Game
+
 signal player_entered
 
 var camera : Camera2D = preload("res://entities/player/camera.tscn").instantiate()
@@ -71,7 +73,7 @@ func _process(delta): # can be on screen change instead of process
 			entity.set_physics_process(false)
 			if entity is Enemy:
 				entity.position = entity.home_position
-
+	
 func add_new_player(id):
 	var new_player = preload("res://entities/player/player.tscn").instantiate()
 	new_player.name = str(id)

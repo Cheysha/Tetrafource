@@ -22,8 +22,6 @@ func _ready():
 
 	get_tree().set_auto_accept_quit(false)
 	
-	#add_child(server_api)
-
 	if OS.get_name() == "HTML5":
 		$multiplayer/Manual/host.disabled = true
 	
@@ -85,7 +83,6 @@ func start_game(dedicated = false, empty_timeout = 0, map = null, entrance = nul
 	if dedicated:
 		network.dedicated = true
 		network.empty_timeout = empty_timeout
-	
 	network.initialize()
 	
 	if !dedicated:
@@ -101,7 +98,7 @@ func start_game(dedicated = false, empty_timeout = 0, map = null, entrance = nul
 		get_tree().get_root().add_child(level)
 		hide()
 
-func host_server(dedicated = false, empty_timeout = 0, port = default_port, max_players = 16):
+func host_server(dedicated = false, empty_timeout:int = 0, port:int = default_port, max_players:int = 16):
 	var ws = WebSocketMultiplayerPeer.new()
 	ws.create_server(port)
 	get_tree().get_multiplayer().set_multiplayer_peer(ws)
@@ -112,9 +109,8 @@ func host_server(dedicated = false, empty_timeout = 0, port = default_port, max_
 	
 	start_game(dedicated, empty_timeout)
 
-func join_server(ip, port):
+func join_server(ip:String, port:int):
 	loading_screen.with_load("Connecting to host", 75)
-	
 	if !ip.is_valid_ip_address():
 		print("Invalid IP")
 		open_error_message("Invalid IP")
@@ -142,6 +138,7 @@ func _client_disconnect(code, reason):
 	show()
 	if code != OK:
 		open_error_message(reason)
+		
 
 func end_game():
 	network.complete()
@@ -152,7 +149,6 @@ func quit_program():
 	get_tree().get_multiplayer().multiplayer_peer = null 
 	get_tree().quit()
 	
-
 func set_dedicated_server(empty_timeout):
 	hide_menus()
 	host_server(true, empty_timeout)
@@ -163,11 +159,15 @@ func get_ipport():
 func hide_menus():
 	for node in get_tree().get_nodes_in_group("menu"):
 		node.hide()
+		
+####################################
+#EVENTS
+####################################
 
 func _notification(n):
 	if (n == NOTIFICATION_WM_CLOSE_REQUEST):
 		quit_program()
-
+		
 func _on_host_pressed():
 	host_server(false)
 
