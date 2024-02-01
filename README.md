@@ -1,5 +1,4 @@
 
-# ![TetraForce](https://tetraforce.io/wp-content/uploads/2020/07/Logo_FullyRendered-1024x617.png)
 ## TetraFource
 Attempt to port Tetraforce to Godot 4.x, total WIP
 
